@@ -3,7 +3,48 @@ guid: fa37c13f67a3e014786690e9d5fddae8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - yellow0: {instanceID: 0}
+  - yellow1: {instanceID: 0}
+  - yellow2: {instanceID: 0}
+  - yellow3: {instanceID: 0}
+  - yellow4: {instanceID: 0}
+  - yellow5: {instanceID: 0}
+  - yellow6: {instanceID: 0}
+  - yellow7: {instanceID: 0}
+  - yellow8: {instanceID: 0}
+  - yellow9: {instanceID: 0}
+  - blue0: {instanceID: 0}
+  - blue1: {instanceID: 0}
+  - blue2: {instanceID: 0}
+  - blue3: {instanceID: 0}
+  - blue4: {instanceID: 0}
+  - blue5: {instanceID: 0}
+  - blue6: {instanceID: 0}
+  - blue7: {instanceID: 0}
+  - blue8: {instanceID: 0}
+  - blue9: {instanceID: 0}
+  - red0: {instanceID: 0}
+  - red1: {instanceID: 0}
+  - red2: {instanceID: 0}
+  - red3: {instanceID: 0}
+  - red4: {instanceID: 0}
+  - red5: {instanceID: 0}
+  - red6: {instanceID: 0}
+  - red7: {instanceID: 0}
+  - red8: {instanceID: 0}
+  - red9: {instanceID: 0}
+  - green0: {instanceID: 0}
+  - green1: {instanceID: 0}
+  - green2: {instanceID: 0}
+  - green3: {instanceID: 0}
+  - green4: {instanceID: 0}
+  - green5: {instanceID: 0}
+  - green6: {instanceID: 0}
+  - green7: {instanceID: 0}
+  - green8: {instanceID: 0}
+  - green9: {instanceID: 0}
+  - p1SpawnPoint: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
