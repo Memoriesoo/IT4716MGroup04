@@ -5,6 +5,90 @@ using UnityEngine.UI;
 
 public class PlayerState : MonoBehaviour
 {
+    public GameObject attackyellow1;
+    public GameObject attackyellow2;
+    public GameObject attackyellow3;
+    public GameObject attackyellow4;
+    public GameObject attackyellow5;
+    public GameObject attackyellow6;
+    public GameObject attackyellow7;
+    public GameObject attackyellow8;
+    public GameObject attackyellow9;
+    public GameObject attackblue1;
+    public GameObject attackblue2;
+    public GameObject attackblue3;
+    public GameObject attackblue4;
+    public GameObject attackblue5;
+    public GameObject attackblue6;
+    public GameObject attackblue7;
+    public GameObject attackblue8;
+    public GameObject attackblue9;
+    public GameObject attackred1;
+    public GameObject attackred2;
+    public GameObject attackred3;
+    public GameObject attackred4;
+    public GameObject attackred5;
+    public GameObject attackred6;
+    public GameObject attackred7;
+    public GameObject attackred8;
+    public GameObject attackred9;
+    public GameObject attackgreen1;
+    public GameObject attackgreen2;
+    public GameObject attackgreen3;
+    public GameObject attackgreen4;
+    public GameObject attackgreen5;
+    public GameObject attackgreen6;
+    public GameObject attackgreen7;
+    public GameObject attackgreen8;
+    public GameObject attackgreen9;
+
+    public GameObject healyellow1;
+    public GameObject healyellow2;
+    public GameObject healyellow3;
+    public GameObject healyellow4;
+    public GameObject healyellow5;
+    public GameObject healyellow6;
+    public GameObject healyellow7;
+    public GameObject healyellow8;
+    public GameObject healyellow9;
+    public GameObject healblue1;
+    public GameObject healblue2;
+    public GameObject healblue3;
+    public GameObject healblue4;
+    public GameObject healblue5;
+    public GameObject healblue6;
+    public GameObject healblue7;
+    public GameObject healblue8;
+    public GameObject healblue9;
+    public GameObject healred1;
+    public GameObject healred2;
+    public GameObject healred3;
+    public GameObject healred4;
+    public GameObject healred5;
+    public GameObject healred6;
+    public GameObject healred7;
+    public GameObject healred8;
+    public GameObject healred9;
+    public GameObject healgreen1;
+    public GameObject healgreen2;
+    public GameObject healgreen3;
+    public GameObject healgreen4;
+    public GameObject healgreen5;
+    public GameObject healgreen6;
+    public GameObject healgreen7;
+    public GameObject healgreen8;
+    public GameObject healgreen9;
+
+    public GameObject reverseyellow;
+    public GameObject reverseblue;
+    public GameObject reversered;
+    public GameObject reversegreen;
+
+    public GameObject skipyellow;
+    public GameObject skipblue;
+    public GameObject skipred;
+    public GameObject skipgreen;
+
     public GameObject yellow0;
     public GameObject yellow1;
     public GameObject yellow2;
@@ -47,6 +131,9 @@ public class PlayerState : MonoBehaviour
     public GameObject green9;
     public Transform p1SpawnPoint;
     public Transform middle;
+    public Slider roundTimeSlider;
+    public Button getCardButton;
+    public GameObject targetMenu;
 
     private int round = 0;
 
@@ -66,15 +153,19 @@ public class PlayerState : MonoBehaviour
 
     Vector3 nextP1SpawnPoint;
     Vector3 cardXPosition;
+    Vector3 attackCardPosition;
 
     GameObject placingCard;
 
+    bool nextOne = true;
     bool clockwise = false;
+    bool choosingTarget = false;
 
+    int healValue = 0;
+    int attackValue = 0;
     int mins = 9;
     float sec = 60;
     float roundTime = 20;
-    bool nextOne = true;
 
     int playerCardAmount = 10;
     int playerLife = 50;
@@ -87,13 +178,21 @@ public class PlayerState : MonoBehaviour
 
     int[] p1CardColor = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] p1CardNum = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    int[] p1CardType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] ai1CardColor = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] ai1CardNum = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    int[] ai1CardType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] ai2CardColor = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] ai2CardNum = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    int[] ai2CardType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] ai3CardColor = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] ai3CardNum = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-    int[] lastCard = new int[2];
+    int[] ai3CardType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    int[] lastCard = new int[3];
+
+    //Color: 1=red, 2=yellow, 3=blue, 4=green
+    //Type: 1=basic , 2=attack, 3=heal, 4=reverse, 5=skip
+
 
     private void Start()
     {
@@ -103,15 +202,14 @@ public class PlayerState : MonoBehaviour
         ai1CounterText = ai1Counter.GetComponent<Text>();
         ai2CounterText = ai2Counter.GetComponent<Text>();
         ai3CounterText = ai3Counter.GetComponent<Text>();
-        
+
         StartCard();
         for (int a=0;a<10;a++)
         {
             GetRandomCard(0);
-            //GetRandomCard(1);
+            GetRandomCard(1);
             GetRandomCard(2);
             GetRandomCard(3);
-            
         }
     }
     private void Update()
@@ -129,8 +227,9 @@ public class PlayerState : MonoBehaviour
         }
         sec -= Time.deltaTime;
 
-        roundTimer.text = "Time for placing card: " + Mathf.Floor(roundTime);
+        roundTimer.text = Mathf.Ceil(roundTime).ToString();
         roundTime -= Time.deltaTime;
+        roundTimeSlider.value = roundTime;
 
         playerCounterText.text = "Card Left: " + playerCardAmount.ToString() + " " + "Life: " + playerLife.ToString();
         ai1CounterText.text = "Card Left: " + ai1CardAmount.ToString() + " " + "Life: " + ai1Life.ToString();
@@ -142,12 +241,30 @@ public class PlayerState : MonoBehaviour
         AI2();
         AI3();
 
+        if(ai1Life <0)
+        {
+            ai1Life = 0;
+        }
+        if (ai2Life < 0)
+        {
+            ai2Life = 0;
+        }
+        if (ai3Life < 0)
+        {
+            ai3Life = 0;
+        }
+        if (playerLife < 0)
+        {
+            playerLife = 0;
+        }
     }
 
     public void Player()
     {
         if (round == 0)
         {
+            getCardButton.gameObject.SetActive(true);
+            roundTimeSlider.gameObject.SetActive(true);
             if (nextOne == true)
             {
                 roundTime = 20;
@@ -157,21 +274,6 @@ public class PlayerState : MonoBehaviour
             {
                 if (clockwise == false)
                 {
-                    GetCard(0);
-                    nextOne = true;
-                    round = 1;
-                }
-                else
-                {
-                    GetCard(0);
-                    nextOne = true;
-                    round = 3;
-                }
-            }
-            if (Input.GetButtonDown("Fire2"))
-            {
-                if (clockwise == false)
-                {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit pointer;
                     if (Physics.Raycast(ray, out pointer, 20))
@@ -179,13 +281,39 @@ public class PlayerState : MonoBehaviour
                         if (pointer.collider.tag == "Card")
                         {
                             cardXPosition = pointer.collider.GetComponent<Transform>().position;
-                            if (p1CardColor[(int)cardXPosition.x+8] == lastCard[0] || p1CardNum[(int)cardXPosition.x + 8] == lastCard[1])
+                            if ((p1CardColor[(int)cardXPosition.x + 8] == lastCard[0] || p1CardNum[(int)cardXPosition.x + 8] == lastCard[1] || (p1CardType[(int)cardXPosition.x + 8] == lastCard[2] &&
+                                (p1CardType[(int)cardXPosition.x + 8] == 4 || p1CardType[(int)cardXPosition.x + 8] == 5))) && choosingTarget == false)
                             {
-                                PlaceCard(cardXPosition);
-                                Destroy(pointer.collider.gameObject);
-                                playerCardAmount -= 1;
-                                nextOne = true;
-                                round = 1;
+                                if (p1CardType[(int)cardXPosition.x + 8] != 2)
+                                    {
+                                    PlaceCard(cardXPosition);
+                                    Destroy(pointer.collider.gameObject);
+                                    playerCardAmount -= 1;
+                                    nextOne = true;
+                                    roundTimeSlider.gameObject.SetActive(false);
+                                    getCardButton.gameObject.SetActive(false);
+                                    if (p1CardType[(int)cardXPosition.x + 8] == 5)
+                                    {
+                                        round = 2;
+                                    }
+                                    else if (p1CardType[(int)cardXPosition.x + 8] == 4)
+                                    {
+                                        round = 3;
+                                        clockwise = true;
+                                    }
+                                    else
+                                    {
+                                        round = 1;
+                                        clockwise = false;
+                                    }
+                                }
+                                else
+                                {
+                                    choosingTarget = true;
+                                    targetMenu.SetActive(true);
+                                    attackValue = p1CardNum[(int)cardXPosition.x + 8];
+                                    attackCardPosition = cardXPosition;
+                                }
                             }
                         }
                     }
@@ -199,13 +327,34 @@ public class PlayerState : MonoBehaviour
                         if (pointer.collider.tag == "Card")
                         {
                             cardXPosition = pointer.collider.GetComponent<Transform>().position;
-                            if (p1CardColor[(int)cardXPosition.x + 8] == lastCard[0] || p1CardNum[(int)cardXPosition.x + 8] == lastCard[1])
+                            if ((p1CardColor[(int)cardXPosition.x + 8] == lastCard[0] || p1CardNum[(int)cardXPosition.x + 8] == lastCard[1] || (p1CardType[(int)cardXPosition.x + 8] == lastCard[2] &&
+                                (p1CardType[(int)cardXPosition.x + 8] == 4 || p1CardType[(int)cardXPosition.x + 8] == 5))) && choosingTarget == false)
                             {
-                                PlaceCard(cardXPosition);
-                                Destroy(pointer.collider.gameObject);
-                                playerCardAmount -= 1;
-                                nextOne = true;
-                                round = 3;
+                                if (p1CardType[(int)cardXPosition.x + 8] != 2)
+                                {
+                                    PlaceCard(cardXPosition);
+                                    Destroy(pointer.collider.gameObject);
+                                    playerCardAmount -= 1;
+                                    nextOne = true;
+                                    roundTimeSlider.gameObject.SetActive(false);
+                                    getCardButton.gameObject.SetActive(false);
+                                    if (p1CardType[(int)cardXPosition.x + 8] == 5)
+                                    {
+                                        round = 2;
+                                    }
+                                    else if (p1CardType[(int)cardXPosition.x + 8] == 4)
+                                    {
+                                        round = 1;
+                                    }
+                                    else round = 3;
+                                }
+                                else
+                                {
+                                    choosingTarget = true;
+                                    targetMenu.SetActive(true);
+                                    attackValue = p1CardNum[(int)cardXPosition.x + 8];
+                                    attackCardPosition = cardXPosition;
+                                }
                             }
                         }
                     }
@@ -213,15 +362,91 @@ public class PlayerState : MonoBehaviour
             }
             if (roundTime < 0)
             {
-                if (clockwise == false)
+                int i = 0;
+                while (p1CardColor[i] != lastCard[0] && p1CardNum[i] != lastCard[1] && p1CardType[i] != lastCard[2] && i < 19)
                 {
-                    nextOne = true;
-                    round = 1;
+                    i++;
                 }
-                else
+                if (p1CardColor[i] == lastCard[0] || p1CardNum[i] == lastCard[1] || p1CardType[i] == lastCard[2])
                 {
-                    nextOne = true;
-                    round = 3;
+                    if (p1CardType[i] != 2)
+                    {
+                        Vector3 cp = p1SpawnPoint.position;
+                        cp.x = i - 8;
+                        PlaceCard(cp);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
+                        }
+                        if (p1CardType[i] == 5)
+                        {
+                            roundTimeSlider.gameObject.SetActive(false);
+                            round = 2;
+                        }
+                        else if (p1CardType[i] == 4)
+                        {
+                            if (clockwise == false)
+                            {
+                                roundTimeSlider.gameObject.SetActive(false);
+                                round = 3;
+                                clockwise = true;
+                            }
+                            else
+                            {
+                                round = 1;
+                                roundTimeSlider.gameObject.SetActive(false);
+                                clockwise = false;
+                            }
+                        }
+                        else
+                        {
+                            if (clockwise == false)
+                            {
+                                GetCard(0);
+                                nextOne = true;
+                                round = 1;
+                                roundTimeSlider.gameObject.SetActive(false);
+                            }
+                            else
+                            {
+                                GetCard(0);
+                                nextOne = true;
+                                round = 3;
+                                roundTimeSlider.gameObject.SetActive(false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Vector3 cp = p1SpawnPoint.position;
+                        cp.x = i - 8;
+                        attackCardPosition = cp;
+                        attackValue = p1CardNum[i];
+                        AIAttack(0, i);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
+                        }
+                        if (clockwise == false)
+                        {
+                            round = 1;
+                        }
+                        else round = 3;
+                    }
                 }
             }
         }
@@ -235,32 +460,46 @@ public class PlayerState : MonoBehaviour
                 roundTime = 20;
                 nextOne = false;
             }
-            if (roundTime < 16)
+            if (roundTime < 18)
             {
                 int i = 0;
-                while (ai1CardColor[i] != lastCard[0] && ai1CardNum[i] != lastCard[1] && i < 19)
+                while (ai1CardColor[i] != lastCard[0] && ai1CardNum[i] != lastCard[1] && (ai1CardType[i] != lastCard[2] && (ai1CardType[i] != 4 || ai1CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (ai1CardColor[i] == lastCard[0] || ai1CardNum[i] == lastCard[1])
+                if (ai1CardColor[i] == lastCard[0] || ai1CardNum[i] == lastCard[1] || (ai1CardType[i] == lastCard[2] && (ai1CardType[i] == 4 || ai1CardType[i] == 5)))
                 {
                     AIPlaceCard(1, i);
                     nextOne = true;
-                    if (clockwise == false)
+                    if (ai1CardType[i] != 5)
                     {
-                        round = 2;
+                        if (clockwise == false)
+                        {
+                            round = 2;
+                        }
+                        else round = 0;
                     }
-                    else round = 0;
+                    else
+                    {
+                        round = 3;
+                    }
                 }
                 else
                 {
                     GetCard(1);
                     nextOne = true;
-                    if (clockwise == false)
+                    if (ai1CardType[i] != 5)
                     {
-                        round = 2;
+                        if (clockwise == false)
+                        {
+                            round = 2;
+                        }
+                        else round = 0;
                     }
-                    else round = 0;
+                    else
+                    {
+                        round = 3;
+                    }
                 }
             }
         }
@@ -275,32 +514,46 @@ public class PlayerState : MonoBehaviour
                 roundTime = 20;
                 nextOne = false;
             }
-            if (roundTime < 16)
+            if (roundTime < 18)
             {
                 int i = 0;
-                while (ai2CardColor[i] != lastCard[0] && ai2CardNum[i] != lastCard[1] && i < 19)
+                while (ai2CardColor[i] != lastCard[0] && ai2CardNum[i] != lastCard[1] && (ai2CardType[i] != lastCard[2] && (ai2CardType[i] != 4 || ai2CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (ai2CardColor[i] == lastCard[0] || ai2CardNum[i] == lastCard[1])
+                if (ai2CardColor[i] == lastCard[0] || ai2CardNum[i] == lastCard[1] || (ai2CardType[i] == lastCard[2] && (ai2CardType[i] == 4 || ai2CardType[i] == 5)))
                 {
                     AIPlaceCard(2, i);
                     nextOne = true;
-                    if (clockwise == false)
+                    if (ai2CardType[i] != 5)
                     {
-                        round = 3;
+                        if (clockwise == false)
+                        {
+                            round = 3;
+                        }
+                        else round = 1;
                     }
-                    else round = 1;
+                    else
+                    {
+                        round = 2;
+                    }
                 }
                 else
                 {
                     GetCard(2);
                     nextOne = true;
-                    if (clockwise == false)
+                    if (ai2CardType[i] != 5)
                     {
-                        round = 3;
+                        if (clockwise == false)
+                        {
+                            round = 3;
+                        }
+                        else round = 1;
                     }
-                    else round = 1;
+                    else
+                    {
+                        round = 2;
+                    }
                 }
             }
         }
@@ -315,32 +568,46 @@ public class PlayerState : MonoBehaviour
                 roundTime = 20;
                 nextOne = false;
             }
-            if (roundTime < 16)
+            if (roundTime < 18)
             {
                 int i = 0;
-                while (ai3CardColor[i] != lastCard[0] && ai3CardNum[i] != lastCard[1] && i < 19)
+                while (ai3CardColor[i] != lastCard[0] && ai3CardNum[i] != lastCard[1] && (ai3CardType[i] != lastCard[2] && (ai3CardType[i] != 4 || ai3CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (ai3CardColor[i] == lastCard[0] || ai3CardNum[i] == lastCard[1])
+                if (ai3CardColor[i] == lastCard[0] || ai3CardNum[i] == lastCard[1] || (ai3CardType[i] == lastCard[2] && (ai3CardType[i] == 4 || ai3CardType[i] == 5)))
                 {
                     AIPlaceCard(3, i);
                     nextOne = true;
-                    if (clockwise == false)
+                    if (ai3CardType[i] != 5)
                     {
-                        round = 0;
+                        if (clockwise == false)
+                        {
+                            round = 0;
+                        }
+                        else round = 2;
                     }
-                    else round = 2;
+                    else
+                    {
+                        round = 3;
+                    }
                 }
                 else
                 {
                     GetCard(3);
                     nextOne = true;
-                    if (clockwise == false)
+                    if (ai3CardType[i] != 5)
                     {
-                        round = 0;
+                        if (clockwise == false)
+                        {
+                            round = 0;
+                        }
+                        else round = 2;
                     }
-                    else round = 2;
+                    else
+                    {
+                        round = 3;
+                    }
                 }
             }
         }
@@ -350,7 +617,7 @@ public class PlayerState : MonoBehaviour
         GameObject startCard;
         int rndcolor = Random.Range(1, 5); //1=red, 2=yellow, 3=blue, 4=green
         int rndnum = Random.Range(0, 10);
-        Debug.Log(rndcolor + " " + rndnum);
+        int rndtype = Random.Range(1, 5);
         Vector3 startPoint = middle.position;
         switch (rndcolor)
         {
@@ -578,6 +845,172 @@ public class PlayerState : MonoBehaviour
         lastCard[0] = rndcolor;
         lastCard[1] = rndnum;
     }
+
+    public void Attack(int attacktarget)
+    {
+        Vector3 cp = attackCardPosition;
+        switch (attacktarget)
+        {
+            case 1:
+                if(ai1Life > 0)
+                {
+                    choosingTarget = false;
+                    ai1Life -= attackValue;
+                    PlaceCard(attackCardPosition);
+                    targetMenu.SetActive(false);
+                    playerCardAmount -= 1;
+                    nextOne = true;
+                    roundTimeSlider.gameObject.SetActive(false);
+                    getCardButton.gameObject.SetActive(false);
+                    GameObject[] AIchoose;
+                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                    foreach (GameObject choosed in AIchoose)
+                    {
+                        if (choosed.transform.position == cp)
+                        {
+                            Destroy(choosed);
+                        }
+                    }
+                    if (clockwise == false)
+                    {
+                        round = 1;
+                    }
+                    else round = 3;
+
+                }
+                break;
+            case 2:
+                if (ai2Life > 0)
+                {
+                    choosingTarget = false;
+                    ai2Life -= attackValue;
+                    PlaceCard(attackCardPosition);
+                    targetMenu.SetActive(false);
+                    playerCardAmount -= 1;
+                    nextOne = true;
+                    roundTimeSlider.gameObject.SetActive(false);
+                    getCardButton.gameObject.SetActive(false);
+                    GameObject[] AIchoose;
+                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                    foreach (GameObject choosed in AIchoose)
+                    {
+                        if (choosed.transform.position == cp)
+                        {
+                            Destroy(choosed);
+                        }
+                    }
+                    if (clockwise == false)
+                    {
+                        round = 1;
+                    }
+                    else round = 3;
+                }
+                break;
+            case 3:
+                if (ai3Life > 0)
+                {
+                    choosingTarget = false;
+                    ai3Life -= attackValue;
+                    PlaceCard(attackCardPosition);
+                    targetMenu.SetActive(false);
+                    playerCardAmount -= 1;
+                    nextOne = true;
+                    roundTimeSlider.gameObject.SetActive(false);
+                    getCardButton.gameObject.SetActive(false);
+                    GameObject[] AIchoose;
+                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                    foreach (GameObject choosed in AIchoose)
+                    {
+                        if (choosed.transform.position == cp)
+                        {
+                            Destroy(choosed);
+                        }
+                    }
+                    if (clockwise == false)
+                    {
+                        round = 1;
+                    }
+                    else round = 3;
+                }
+                break;
+        }
+    }
+
+    public void AIAttack(int target, int position)
+    {
+        switch (target)
+        {
+            case 0:
+                if (ai1Life > 0)
+                {
+                    ai1Life -= attackValue;
+                    PlaceCard(attackCardPosition);
+                    roundTimeSlider.gameObject.SetActive(false);
+                    getCardButton.gameObject.SetActive(false);
+                    targetMenu.SetActive(false);
+                }
+                else if (ai2Life>0)
+                {
+                    ai2Life -= attackValue;
+                    PlaceCard(attackCardPosition);
+                    roundTimeSlider.gameObject.SetActive(false);
+                    getCardButton.gameObject.SetActive(false);
+                    targetMenu.SetActive(false);
+                }
+                else
+                {
+                    ai3Life -= attackValue;
+                    PlaceCard(attackCardPosition);
+                    roundTimeSlider.gameObject.SetActive(false);
+                    getCardButton.gameObject.SetActive(false);
+                    targetMenu.SetActive(false);
+                }
+                break;
+            case 1:
+                if (ai2Life > 0)
+                {
+                    ai2Life -= attackValue;
+                }
+                else if (ai3Life > 0)
+                {
+                    ai3Life -= attackValue;
+                }
+                else
+                {
+                    playerLife -= attackValue;
+                }
+                break;
+            case 2:
+                if (ai3Life > 0)
+                {
+                    ai3Life -= attackValue;
+                }
+                else if (playerLife > 0)
+                {
+                    playerLife -= attackValue;
+                }
+                else
+                {
+                    ai1Life -= attackValue;
+                }
+                break;
+            case 3:
+                if (playerLife > 0)
+                {
+                    playerLife -= attackValue;
+                }
+                else if (ai1Life > 0)
+                {
+                    ai1Life -= attackValue;
+                }
+                else
+                {
+                    ai2Life -= attackValue;
+                }
+                break;
+        }
+    }
+   
     public void GetCard(int target) //0=player 1,2,3=AI
     {
         switch (target)
@@ -589,6 +1022,37 @@ public class PlayerState : MonoBehaviour
                     GetRandomCard(0);
                     playerCardAmount += 1;
                     GetRandomCard(0);
+                    getCardButton.gameObject.SetActive(false);
+                    if (clockwise == false)
+                    {
+                        nextOne = true;
+                        round = 1;
+                        roundTimeSlider.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        nextOne = true;
+                        round = 3;
+                        roundTimeSlider.gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    playerLife -= 2;
+                    RandomChangeCard(0);
+                    getCardButton.gameObject.SetActive(false);
+                    if (clockwise == false)
+                    {
+                        nextOne = true;
+                        round = 1;
+                        roundTimeSlider.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        nextOne = true;
+                        round = 3;
+                        roundTimeSlider.gameObject.SetActive(false);
+                    }
                 }
                 break;
             case 1:
@@ -598,7 +1062,12 @@ public class PlayerState : MonoBehaviour
                     ai1Life -= 2;
                     GetRandomCard(1);
                     GetRandomCard(1);
-
+                }
+                else
+                {
+                    ai1CardAmount += 2;
+                    ai1Life -= 2;
+                    RandomChangeCard(1);
                 }
                 break;
             case 2:
@@ -609,6 +1078,12 @@ public class PlayerState : MonoBehaviour
                     GetRandomCard(2);
                     GetRandomCard(2);
                 }
+                else
+                {
+                    ai2CardAmount += 2;
+                    ai2Life -= 2;
+                    RandomChangeCard(2);
+                }
                 break;
             case 3:
                 if (ai3CardAmount <= 18)
@@ -617,6 +1092,12 @@ public class PlayerState : MonoBehaviour
                     ai3Life -= 2;
                     GetRandomCard(3);
                     GetRandomCard(3);
+                }
+                else
+                {
+                    ai3CardAmount += 2;
+                    ai3Life -= 2;
+                    RandomChangeCard(3);
                 }
                 break;
             default:
@@ -630,453 +1111,1399 @@ public class PlayerState : MonoBehaviour
         {
             lastCard[0] = ai1CardColor[cp];
             lastCard[1] = ai1CardNum[cp];
-            switch (ai1CardColor[cp])
+            lastCard[2] = ai1CardType[cp];
+            switch (ai1CardType[cp])
             {
                 case 1:
-                    switch (ai1CardNum[cp])
+                    switch (ai1CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(red0);
-                            break;
                         case 1:
-                            PlaceMiddle(red1);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(red0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(red1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(red2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(red3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(red4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(red5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(red6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(red7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(red8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(red9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(red2);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(yellow0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(yellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(yellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(yellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(yellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(yellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(yellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(yellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(yellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(yellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(red3);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(blue0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(blue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(blue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(blue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(blue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(blue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(blue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(blue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(blue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(blue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(red4);
-                            break;
-                        case 5:
-                            PlaceMiddle(red5);
-                            break;
-                        case 6:
-                            PlaceMiddle(red6);
-                            break;
-                        case 7:
-                            PlaceMiddle(red7);
-                            break;
-                        case 8:
-                            PlaceMiddle(red8);
-                            break;
-                        case 9:
-                            PlaceMiddle(red9);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(green0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(green1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(green2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(green3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(green4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(green5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(green6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(green7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(green8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(green9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 2:
-                    switch (ai1CardNum[cp])
+                    attackValue = ai1CardNum[cp];
+                    AIAttack(1,cp);
+                    switch (ai1CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(yellow0);
-                            break;
                         case 1:
-                            PlaceMiddle(yellow1);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackred1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackred2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackred3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackred4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackred5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackred6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackred7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackred8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackred9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(yellow2);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackyellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackyellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackyellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackyellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackyellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackyellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackyellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackyellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackyellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(yellow3);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackblue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackblue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackblue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackblue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackblue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackblue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackblue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackblue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackblue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(yellow4);
-                            break;
-                        case 5:
-                            PlaceMiddle(yellow5);
-                            break;
-                        case 6:
-                            PlaceMiddle(yellow6);
-                            break;
-                        case 7:
-                            PlaceMiddle(yellow7);
-                            break;
-                        case 8:
-                            PlaceMiddle(yellow8);
-                            break;
-                        case 9:
-                            PlaceMiddle(yellow9);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackgreen1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackgreen2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackgreen3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackgreen4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackgreen5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackgreen6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackgreen7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackgreen8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackgreen9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 3:
-                    switch (ai1CardNum[cp])
+                    ai1Life += ai1CardNum[cp];
+                    switch (ai1CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(blue0);
-                            break;
                         case 1:
-                            PlaceMiddle(blue1);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healred1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healred2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healred3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healred4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healred5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healred6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healred7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healred8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healred9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(blue2);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healyellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healyellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healyellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healyellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healyellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healyellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healyellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healyellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healyellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(blue3);
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healblue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healblue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healblue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healblue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healblue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healblue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healblue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healblue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healblue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(blue4);
-                            break;
-                        case 5:
-                            PlaceMiddle(blue5);
-                            break;
-                        case 6:
-                            PlaceMiddle(blue6);
-                            break;
-                        case 7:
-                            PlaceMiddle(blue7);
-                            break;
-                        case 8:
-                            PlaceMiddle(blue8);
-                            break;
-                        case 9:
-                            PlaceMiddle(blue9); ;
+                            switch (ai1CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healgreen1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healgreen2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healgreen3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healgreen4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healgreen5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healgreen6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healgreen7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healgreen8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healgreen9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 4:
-                    switch (ai1CardNum[cp])
+                    if (clockwise == false)
                     {
-                        case 0:
-                            PlaceMiddle(green0);
-                            break;
+                        clockwise = true;
+                    }
+                    else clockwise = false;
+                    switch (ai1CardColor[cp])
+                    { 
                         case 1:
-                            PlaceMiddle(green1);
+                            PlaceMiddle(reversered);
                             break;
                         case 2:
-                            PlaceMiddle(green2);
+                            PlaceMiddle(reverseyellow);
                             break;
                         case 3:
-                            PlaceMiddle(green3);
+                            PlaceMiddle(reverseblue);
                             break;
                         case 4:
-                            PlaceMiddle(green4);
-                            break;
-                        case 5:
-                            PlaceMiddle(green5);
-                            break;
-                        case 6:
-                            PlaceMiddle(green6);
-                            break;
-                        case 7:
-                            PlaceMiddle(green7);
-                            break;
-                        case 8:
-                            PlaceMiddle(green8);
-                            break;
-                        case 9:
-                            PlaceMiddle(green9);
+                            PlaceMiddle(reversegreen);
                             break;
                     }
                     break;
+                case 5:
+                    switch (ai1CardColor[cp])
+                    {
+                        case 1:
+                            PlaceMiddle(skipred);
+                            break;
+                        case 2:
+                            PlaceMiddle(skipyellow);
+                            break;
+                        case 3:
+                            PlaceMiddle(skipblue);
+                            break;
+                        case 4:
+                            PlaceMiddle(skipgreen);
+                            break;
+                    }
+                    break;
+
             }
             ai1CardColor[cp] = -1;
             ai1CardNum[cp] = -1;
+            ai1CardType[cp] = -1;
             ai1CardAmount -= 1;
         }
         if (target == 2)
         {
             lastCard[0] = ai2CardColor[cp];
             lastCard[1] = ai2CardNum[cp];
-            switch (ai2CardColor[cp])
+            lastCard[2] = ai2CardType[cp];
+            switch (ai2CardType[cp])
             {
                 case 1:
-                    switch (ai2CardNum[cp])
+                    switch (ai2CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(red0);
-                            break;
                         case 1:
-                            PlaceMiddle(red1);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(red0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(red1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(red2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(red3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(red4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(red5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(red6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(red7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(red8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(red9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(red2);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(yellow0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(yellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(yellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(yellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(yellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(yellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(yellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(yellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(yellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(yellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(red3);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(blue0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(blue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(blue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(blue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(blue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(blue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(blue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(blue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(blue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(blue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(red4);
-                            break;
-                        case 5:
-                            PlaceMiddle(red5);
-                            break;
-                        case 6:
-                            PlaceMiddle(red6);
-                            break;
-                        case 7:
-                            PlaceMiddle(red7);
-                            break;
-                        case 8:
-                            PlaceMiddle(red8);
-                            break;
-                        case 9:
-                            PlaceMiddle(red9);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(green0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(green1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(green2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(green3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(green4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(green5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(green6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(green7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(green8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(green9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 2:
-                    switch (ai2CardNum[cp])
+                    attackValue = ai2CardNum[cp];
+                    AIAttack(2,cp);
+                    switch (ai2CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(yellow0);
-                            break;
                         case 1:
-                            PlaceMiddle(yellow1);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackred1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackred2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackred3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackred4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackred5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackred6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackred7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackred8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackred9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(yellow2);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackyellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackyellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackyellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackyellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackyellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackyellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackyellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackyellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackyellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(yellow3);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackblue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackblue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackblue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackblue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackblue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackblue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackblue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackblue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackblue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(yellow4);
-                            break;
-                        case 5:
-                            PlaceMiddle(yellow5);
-                            break;
-                        case 6:
-                            PlaceMiddle(yellow6);
-                            break;
-                        case 7:
-                            PlaceMiddle(yellow7);
-                            break;
-                        case 8:
-                            PlaceMiddle(yellow8);
-                            break;
-                        case 9:
-                            PlaceMiddle(yellow9);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackgreen1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackgreen2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackgreen3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackgreen4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackgreen5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackgreen6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackgreen7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackgreen8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackgreen9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 3:
-                    switch (ai2CardNum[cp])
+                    ai2Life += ai2CardNum[cp];
+                    switch (ai2CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(blue0);
-                            break;
                         case 1:
-                            PlaceMiddle(blue1);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healred1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healred2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healred3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healred4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healred5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healred6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healred7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healred8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healred9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(blue2);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healyellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healyellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healyellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healyellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healyellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healyellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healyellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healyellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healyellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(blue3);
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healblue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healblue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healblue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healblue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healblue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healblue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healblue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healblue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healblue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(blue4);
-                            break;
-                        case 5:
-                            PlaceMiddle(blue5);
-                            break;
-                        case 6:
-                            PlaceMiddle(blue6);
-                            break;
-                        case 7:
-                            PlaceMiddle(blue7);
-                            break;
-                        case 8:
-                            PlaceMiddle(blue8);
-                            break;
-                        case 9:
-                            PlaceMiddle(blue9); ;
+                            switch (ai2CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healgreen1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healgreen2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healgreen3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healgreen4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healgreen5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healgreen6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healgreen7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healgreen8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healgreen9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 4:
-                    switch (ai2CardNum[cp])
+                    if (clockwise == false)
                     {
-                        case 0:
-                            PlaceMiddle(green0);
-                            break;
+                        clockwise = true;
+                    }
+                    else clockwise = false;
+                    switch (ai2CardColor[cp])
+                    {
                         case 1:
-                            PlaceMiddle(green1);
+                            PlaceMiddle(reversered);
                             break;
                         case 2:
-                            PlaceMiddle(green2);
+                            PlaceMiddle(reverseyellow);
                             break;
                         case 3:
-                            PlaceMiddle(green3);
+                            PlaceMiddle(reverseblue);
                             break;
                         case 4:
-                            PlaceMiddle(green4);
+                            PlaceMiddle(reversegreen);
                             break;
-                        case 5:
-                            PlaceMiddle(green5);
+                    }
+                    break;
+                case 5:
+                    switch (ai2CardColor[cp])
+                    {
+                        case 1:
+                            PlaceMiddle(skipred);
                             break;
-                        case 6:
-                            PlaceMiddle(green6);
+                        case 2:
+                            PlaceMiddle(skipyellow);
                             break;
-                        case 7:
-                            PlaceMiddle(green7);
+                        case 3:
+                            PlaceMiddle(skipblue);
                             break;
-                        case 8:
-                            PlaceMiddle(green8);
-                            break;
-                        case 9:
-                            PlaceMiddle(green9);
+                        case 4:
+                            PlaceMiddle(skipgreen);
                             break;
                     }
                     break;
             }
             ai2CardColor[cp] = -1;
             ai2CardNum[cp] = -1;
+            ai2CardType[cp] = -1;
             ai2CardAmount -= 1;
         }
         if (target == 3)
         {
             lastCard[0] = ai3CardColor[cp];
             lastCard[1] = ai3CardNum[cp];
-            switch (ai3CardColor[cp])
+            lastCard[2] = ai3CardType[cp];
+            switch (ai3CardType[cp])
             {
                 case 1:
-                    switch (ai3CardNum[cp])
+                    switch (ai3CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(red0);
-                            break;
                         case 1:
-                            PlaceMiddle(red1);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(red0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(red1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(red2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(red3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(red4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(red5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(red6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(red7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(red8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(red9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(red2);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(yellow0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(yellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(yellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(yellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(yellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(yellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(yellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(yellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(yellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(yellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(red3);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(blue0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(blue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(blue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(blue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(blue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(blue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(blue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(blue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(blue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(blue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(red4);
-                            break;
-                        case 5:
-                            PlaceMiddle(red5);
-                            break;
-                        case 6:
-                            PlaceMiddle(red6);
-                            break;
-                        case 7:
-                            PlaceMiddle(red7);
-                            break;
-                        case 8:
-                            PlaceMiddle(red8);
-                            break;
-                        case 9:
-                            PlaceMiddle(red9);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 0:
+                                    PlaceMiddle(green0);
+                                    break;
+                                case 1:
+                                    PlaceMiddle(green1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(green2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(green3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(green4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(green5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(green6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(green7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(green8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(green9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 2:
-                    switch (ai3CardNum[cp])
+                    attackValue = ai3CardNum[cp];
+                    AIAttack(3,cp);
+                    switch (ai3CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(yellow0);
-                            break;
                         case 1:
-                            PlaceMiddle(yellow1);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackred1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackred2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackred3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackred4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackred5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackred6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackred7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackred8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackred9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(yellow2);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackyellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackyellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackyellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackyellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackyellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackyellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackyellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackyellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackyellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(yellow3);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackblue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackblue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackblue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackblue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackblue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackblue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackblue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackblue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackblue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(yellow4);
-                            break;
-                        case 5:
-                            PlaceMiddle(yellow5);
-                            break;
-                        case 6:
-                            PlaceMiddle(yellow6);
-                            break;
-                        case 7:
-                            PlaceMiddle(yellow7);
-                            break;
-                        case 8:
-                            PlaceMiddle(yellow8);
-                            break;
-                        case 9:
-                            PlaceMiddle(yellow9);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(attackgreen1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(attackgreen2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(attackgreen3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(attackgreen4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(attackgreen5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(attackgreen6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(attackgreen7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(attackgreen8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(attackgreen9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 3:
-                    switch (ai3CardNum[cp])
+                    ai3Life += ai3CardNum[cp];
+                    switch (ai3CardColor[cp])
                     {
-                        case 0:
-                            PlaceMiddle(blue0);
-                            break;
                         case 1:
-                            PlaceMiddle(blue1);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healred1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healred2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healred3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healred4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healred5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healred6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healred7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healred8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healred9);
+                                    break;
+                            }
                             break;
                         case 2:
-                            PlaceMiddle(blue2);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healyellow1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healyellow2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healyellow3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healyellow4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healyellow5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healyellow6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healyellow7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healyellow8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healyellow9);
+                                    break;
+                            }
                             break;
                         case 3:
-                            PlaceMiddle(blue3);
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healblue1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healblue2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healblue3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healblue4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healblue5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healblue6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healblue7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healblue8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healblue9); ;
+                                    break;
+                            }
                             break;
                         case 4:
-                            PlaceMiddle(blue4);
-                            break;
-                        case 5:
-                            PlaceMiddle(blue5);
-                            break;
-                        case 6:
-                            PlaceMiddle(blue6);
-                            break;
-                        case 7:
-                            PlaceMiddle(blue7);
-                            break;
-                        case 8:
-                            PlaceMiddle(blue8);
-                            break;
-                        case 9:
-                            PlaceMiddle(blue9); ;
+                            switch (ai3CardNum[cp])
+                            {
+                                case 1:
+                                    PlaceMiddle(healgreen1);
+                                    break;
+                                case 2:
+                                    PlaceMiddle(healgreen2);
+                                    break;
+                                case 3:
+                                    PlaceMiddle(healgreen3);
+                                    break;
+                                case 4:
+                                    PlaceMiddle(healgreen4);
+                                    break;
+                                case 5:
+                                    PlaceMiddle(healgreen5);
+                                    break;
+                                case 6:
+                                    PlaceMiddle(healgreen6);
+                                    break;
+                                case 7:
+                                    PlaceMiddle(healgreen7);
+                                    break;
+                                case 8:
+                                    PlaceMiddle(healgreen8);
+                                    break;
+                                case 9:
+                                    PlaceMiddle(healgreen9);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 4:
-                    switch (ai3CardNum[cp])
+                    if (clockwise == false)
                     {
-                        case 0:
-                            PlaceMiddle(green0);
-                            break;
+                        clockwise = true;
+                    }
+                    else clockwise = false;
+                    switch (ai3CardColor[cp])
+                    {
                         case 1:
-                            PlaceMiddle(green1);
+                            PlaceMiddle(reversered);
                             break;
                         case 2:
-                            PlaceMiddle(green2);
+                            PlaceMiddle(reverseyellow);
                             break;
                         case 3:
-                            PlaceMiddle(green3);
+                            PlaceMiddle(reverseblue);
                             break;
                         case 4:
-                            PlaceMiddle(green4);
+                            PlaceMiddle(reversegreen);
                             break;
-                        case 5:
-                            PlaceMiddle(green5);
+                    }
+                    break;
+                case 5:
+                    switch (ai3CardColor[cp])
+                    {
+                        case 1:
+                            PlaceMiddle(skipred);
                             break;
-                        case 6:
-                            PlaceMiddle(green6);
+                        case 2:
+                            PlaceMiddle(skipyellow);
                             break;
-                        case 7:
-                            PlaceMiddle(green7);
+                        case 3:
+                            PlaceMiddle(skipblue);
                             break;
-                        case 8:
-                            PlaceMiddle(green8);
-                            break;
-                        case 9:
-                            PlaceMiddle(green9);
+                        case 4:
+                            PlaceMiddle(skipgreen);
                             break;
                     }
                     break;
             }
             ai3CardColor[cp] = -1;
             ai3CardNum[cp] = -1;
+            ai3CardType[cp] = -1;
             ai3CardAmount -= 1;
         }
         
@@ -1087,152 +2514,465 @@ public class PlayerState : MonoBehaviour
         int cp = (int)position.x + 8; //cp = card position , first card = 0
         lastCard[0] = p1CardColor[cp];
         lastCard[1] = p1CardNum[cp];
-        switch (p1CardColor[cp])
+        lastCard[2] = p1CardType[cp];
+        switch (p1CardType[cp])
         {
             case 1:
-                switch (p1CardNum[cp])
+                switch (p1CardColor[cp])
                 {
-                    case 0:
-                        PlaceMiddle(red0);
-                        break;
                     case 1:
-                        PlaceMiddle(red1);
+                        switch (p1CardNum[cp])
+                        {
+                            case 0:
+                                PlaceMiddle(red0);
+                                break;
+                            case 1:
+                                PlaceMiddle(red1);
+                                break;
+                            case 2:
+                                PlaceMiddle(red2);
+                                break;
+                            case 3:
+                                PlaceMiddle(red3);
+                                break;
+                            case 4:
+                                PlaceMiddle(red4);
+                                break;
+                            case 5:
+                                PlaceMiddle(red5);
+                                break;
+                            case 6:
+                                PlaceMiddle(red6);
+                                break;
+                            case 7:
+                                PlaceMiddle(red7);
+                                break;
+                            case 8:
+                                PlaceMiddle(red8);
+                                break;
+                            case 9:
+                                PlaceMiddle(red9);
+                                break;
+                        }
                         break;
                     case 2:
-                        PlaceMiddle(red2);
+                        switch (p1CardNum[cp])
+                        {
+                            case 0:
+                                PlaceMiddle(yellow0);
+                                break;
+                            case 1:
+                                PlaceMiddle(yellow1);
+                                break;
+                            case 2:
+                                PlaceMiddle(yellow2);
+                                break;
+                            case 3:
+                                PlaceMiddle(yellow3);
+                                break;
+                            case 4:
+                                PlaceMiddle(yellow4);
+                                break;
+                            case 5:
+                                PlaceMiddle(yellow5);
+                                break;
+                            case 6:
+                                PlaceMiddle(yellow6);
+                                break;
+                            case 7:
+                                PlaceMiddle(yellow7);
+                                break;
+                            case 8:
+                                PlaceMiddle(yellow8);
+                                break;
+                            case 9:
+                                PlaceMiddle(yellow9);
+                                break;
+                        }
                         break;
                     case 3:
-                        PlaceMiddle(red3);
+                        switch (p1CardNum[cp])
+                        {
+                            case 0:
+                                PlaceMiddle(blue0);
+                                break;
+                            case 1:
+                                PlaceMiddle(blue1);
+                                break;
+                            case 2:
+                                PlaceMiddle(blue2);
+                                break;
+                            case 3:
+                                PlaceMiddle(blue3);
+                                break;
+                            case 4:
+                                PlaceMiddle(blue4);
+                                break;
+                            case 5:
+                                PlaceMiddle(blue5);
+                                break;
+                            case 6:
+                                PlaceMiddle(blue6);
+                                break;
+                            case 7:
+                                PlaceMiddle(blue7);
+                                break;
+                            case 8:
+                                PlaceMiddle(blue8);
+                                break;
+                            case 9:
+                                PlaceMiddle(blue9); ;
+                                break;
+                        }
                         break;
                     case 4:
-                        PlaceMiddle(red4);
-                        break;
-                    case 5:
-                        PlaceMiddle(red5);
-                        break;
-                    case 6:
-                        PlaceMiddle(red6);
-                        break;
-                    case 7:
-                        PlaceMiddle(red7);
-                        break;
-                    case 8:
-                        PlaceMiddle(red8);
-                        break;
-                    case 9:
-                        PlaceMiddle(red9);
+                        switch (p1CardNum[cp])
+                        {
+                            case 0:
+                                PlaceMiddle(green0);
+                                break;
+                            case 1:
+                                PlaceMiddle(green1);
+                                break;
+                            case 2:
+                                PlaceMiddle(green2);
+                                break;
+                            case 3:
+                                PlaceMiddle(green3);
+                                break;
+                            case 4:
+                                PlaceMiddle(green4);
+                                break;
+                            case 5:
+                                PlaceMiddle(green5);
+                                break;
+                            case 6:
+                                PlaceMiddle(green6);
+                                break;
+                            case 7:
+                                PlaceMiddle(green7);
+                                break;
+                            case 8:
+                                PlaceMiddle(green8);
+                                break;
+                            case 9:
+                                PlaceMiddle(green9);
+                                break;
+                        }
                         break;
                 }
                 break;
             case 2:
-                switch (p1CardNum[cp])
+                switch (p1CardColor[cp])
                 {
-                    case 0:
-                        PlaceMiddle(yellow0);
-                        break;
                     case 1:
-                        PlaceMiddle(yellow1);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(attackred1);
+                                break;
+                            case 2:
+                                PlaceMiddle(attackred2);
+                                break;
+                            case 3:
+                                PlaceMiddle(attackred3);
+                                break;
+                            case 4:
+                                PlaceMiddle(attackred4);
+                                break;
+                            case 5:
+                                PlaceMiddle(attackred5);
+                                break;
+                            case 6:
+                                PlaceMiddle(attackred6);
+                                break;
+                            case 7:
+                                PlaceMiddle(attackred7);
+                                break;
+                            case 8:
+                                PlaceMiddle(attackred8);
+                                break;
+                            case 9:
+                                PlaceMiddle(attackred9);
+                                break;
+                        }
                         break;
                     case 2:
-                        PlaceMiddle(yellow2);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(attackyellow1);
+                                break;
+                            case 2:
+                                PlaceMiddle(attackyellow2);
+                                break;
+                            case 3:
+                                PlaceMiddle(attackyellow3);
+                                break;
+                            case 4:
+                                PlaceMiddle(attackyellow4);
+                                break;
+                            case 5:
+                                PlaceMiddle(attackyellow5);
+                                break;
+                            case 6:
+                                PlaceMiddle(attackyellow6);
+                                break;
+                            case 7:
+                                PlaceMiddle(attackyellow7);
+                                break;
+                            case 8:
+                                PlaceMiddle(attackyellow8);
+                                break;
+                            case 9:
+                                PlaceMiddle(attackyellow9);
+                                break;
+                        }
                         break;
                     case 3:
-                        PlaceMiddle(yellow3);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(attackblue1);
+                                break;
+                            case 2:
+                                PlaceMiddle(attackblue2);
+                                break;
+                            case 3:
+                                PlaceMiddle(attackblue3);
+                                break;
+                            case 4:
+                                PlaceMiddle(attackblue4);
+                                break;
+                            case 5:
+                                PlaceMiddle(attackblue5);
+                                break;
+                            case 6:
+                                PlaceMiddle(attackblue6);
+                                break;
+                            case 7:
+                                PlaceMiddle(attackblue7);
+                                break;
+                            case 8:
+                                PlaceMiddle(attackblue8);
+                                break;
+                            case 9:
+                                PlaceMiddle(attackblue9); ;
+                                break;
+                        }
                         break;
                     case 4:
-                        PlaceMiddle(yellow4);
-                        break;
-                    case 5:
-                        PlaceMiddle(yellow5);
-                        break;
-                    case 6:
-                        PlaceMiddle(yellow6);
-                        break;
-                    case 7:
-                        PlaceMiddle(yellow7);
-                        break;
-                    case 8:
-                        PlaceMiddle(yellow8);
-                        break;
-                    case 9:
-                        PlaceMiddle(yellow9);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(attackgreen1);
+                                break;
+                            case 2:
+                                PlaceMiddle(attackgreen2);
+                                break;
+                            case 3:
+                                PlaceMiddle(attackgreen3);
+                                break;
+                            case 4:
+                                PlaceMiddle(attackgreen4);
+                                break;
+                            case 5:
+                                PlaceMiddle(attackgreen5);
+                                break;
+                            case 6:
+                                PlaceMiddle(attackgreen6);
+                                break;
+                            case 7:
+                                PlaceMiddle(attackgreen7);
+                                break;
+                            case 8:
+                                PlaceMiddle(attackgreen8);
+                                break;
+                            case 9:
+                                PlaceMiddle(attackgreen9);
+                                break;
+                        }
                         break;
                 }
                 break;
             case 3:
-                switch (p1CardNum[cp])
+                playerLife += p1CardNum[cp];
+                switch (p1CardColor[cp])
                 {
-                    case 0:
-                        PlaceMiddle(blue0);
-                        break;
                     case 1:
-                        PlaceMiddle(blue1);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(healred1);
+                                break;
+                            case 2:
+                                PlaceMiddle(healred2);
+                                break;
+                            case 3:
+                                PlaceMiddle(healred3);
+                                break;
+                            case 4:
+                                PlaceMiddle(healred4);
+                                break;
+                            case 5:
+                                PlaceMiddle(healred5);
+                                break;
+                            case 6:
+                                PlaceMiddle(healred6);
+                                break;
+                            case 7:
+                                PlaceMiddle(healred7);
+                                break;
+                            case 8:
+                                PlaceMiddle(healred8);
+                                break;
+                            case 9:
+                                PlaceMiddle(healred9);
+                                break;
+                        }
                         break;
                     case 2:
-                        PlaceMiddle(blue2);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(healyellow1);
+                                break;
+                            case 2:
+                                PlaceMiddle(healyellow2);
+                                break;
+                            case 3:
+                                PlaceMiddle(healyellow3);
+                                break;
+                            case 4:
+                                PlaceMiddle(healyellow4);
+                                break;
+                            case 5:
+                                PlaceMiddle(healyellow5);
+                                break;
+                            case 6:
+                                PlaceMiddle(healyellow6);
+                                break;
+                            case 7:
+                                PlaceMiddle(healyellow7);
+                                break;
+                            case 8:
+                                PlaceMiddle(healyellow8);
+                                break;
+                            case 9:
+                                PlaceMiddle(healyellow9);
+                                break;
+                        }
                         break;
                     case 3:
-                        PlaceMiddle(blue3);
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(healblue1);
+                                break;
+                            case 2:
+                                PlaceMiddle(healblue2);
+                                break;
+                            case 3:
+                                PlaceMiddle(healblue3);
+                                break;
+                            case 4:
+                                PlaceMiddle(healblue4);
+                                break;
+                            case 5:
+                                PlaceMiddle(healblue5);
+                                break;
+                            case 6:
+                                PlaceMiddle(healblue6);
+                                break;
+                            case 7:
+                                PlaceMiddle(healblue7);
+                                break;
+                            case 8:
+                                PlaceMiddle(healblue8);
+                                break;
+                            case 9:
+                                PlaceMiddle(healblue9); ;
+                                break;
+                        }
                         break;
                     case 4:
-                        PlaceMiddle(blue4);
-                        break;
-                    case 5:
-                        PlaceMiddle(blue5);
-                        break;
-                    case 6:
-                        PlaceMiddle(blue6);
-                        break;
-                    case 7:
-                        PlaceMiddle(blue7);
-                        break;
-                    case 8:
-                        PlaceMiddle(blue8);
-                        break;
-                    case 9:
-                        PlaceMiddle(blue9);;
+                        switch (p1CardNum[cp])
+                        {
+                            case 1:
+                                PlaceMiddle(healgreen1);
+                                break;
+                            case 2:
+                                PlaceMiddle(healgreen2);
+                                break;
+                            case 3:
+                                PlaceMiddle(healgreen3);
+                                break;
+                            case 4:
+                                PlaceMiddle(healgreen4);
+                                break;
+                            case 5:
+                                PlaceMiddle(healgreen5);
+                                break;
+                            case 6:
+                                PlaceMiddle(healgreen6);
+                                break;
+                            case 7:
+                                PlaceMiddle(healgreen7);
+                                break;
+                            case 8:
+                                PlaceMiddle(healgreen8);
+                                break;
+                            case 9:
+                                PlaceMiddle(healgreen9);
+                                break;
+                        }
                         break;
                 }
                 break;
             case 4:
-                switch (p1CardNum[cp])
+                if (clockwise == false)
                 {
-                    case 0:
-                        PlaceMiddle(green0);
-                        break;
+                    clockwise = true;
+                }
+                else clockwise = false;
+                switch (p1CardColor[cp])
+                {
                     case 1:
-                        PlaceMiddle(green1);
+                        PlaceMiddle(reversered);
                         break;
                     case 2:
-                        PlaceMiddle(green2);
+                        PlaceMiddle(reverseyellow);
                         break;
                     case 3:
-                        PlaceMiddle(green3);
+                        PlaceMiddle(reverseblue);
                         break;
                     case 4:
-                        PlaceMiddle(green4);
+                        PlaceMiddle(reversegreen);
                         break;
-                    case 5:
-                        PlaceMiddle(green5);
+                }
+                break;
+            case 5:
+                switch (p1CardColor[cp])
+                {
+                    case 1:
+                        PlaceMiddle(skipred);
                         break;
-                    case 6:
-                        PlaceMiddle(green6);
+                    case 2:
+                        PlaceMiddle(skipyellow);
                         break;
-                    case 7:
-                        PlaceMiddle(green7);
+                    case 3:
+                        PlaceMiddle(skipblue);
                         break;
-                    case 8:
-                        PlaceMiddle(green8);
-                        break;
-                    case 9:
-                        PlaceMiddle(green9);
+                    case 4:
+                        PlaceMiddle(skipgreen);
                         break;
                 }
                 break;
         }
         p1CardColor[cp] = -1;
         p1CardNum[cp] = -1;
-        
+        p1CardType[cp] = -1;
+        targetMenu.SetActive(false);
     }
 
     public void PlaceMiddle(GameObject card)
@@ -1242,10 +2982,2025 @@ public class PlayerState : MonoBehaviour
         placed.gameObject.tag = "Placed";
     }
 
+    public void RandomChangeCard(int target)
+    {
+        GameObject[] AIchoose;
+        int rndcolor = (int)Random.Range(1, 5);
+        int rndnum = (int)Random.Range(0, 10);
+        int rndtype = (int)Random.Range(1, 3);
+        int rndposition = (int)Random.Range(0, 20);
+        int i = 0;
+        switch (target)
+        {
+            case 0:
+                if (playerCardAmount < 20)
+                {
+                    while (p1CardColor[i] != -1)
+                    {
+                        i++;
+                    }
+                    if (p1CardColor[i] == -1)
+                    {
+                        p1CardColor[i] = rndcolor;
+                        p1CardNum[i] = rndnum;
+                        p1CardType[i] = rndtype;
+                        playerCardAmount += 1;
+                    }
+                    switch (rndtype)
+                    {
+                        case 1:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(red0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(red1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(red2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(red3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(red4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(red5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(red6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(red7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(red8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(red9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(yellow0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(yellow1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(yellow2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(yellow3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(yellow4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(yellow5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(yellow6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(yellow7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(yellow8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(yellow9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(blue0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(blue1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(blue2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(blue3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(blue4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(blue5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(blue6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(blue7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(blue8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(blue9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(green0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(green1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(green2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(green3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(green4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(green5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(green6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(green7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(green8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(green9, i);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackred1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackred2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackred3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackred4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackred5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackred6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackred7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackred8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackred9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackyellow1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackyellow2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackyellow3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackyellow4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackyellow5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackyellow6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackyellow7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackyellow8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackyellow9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackblue1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackblue2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackblue3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackblue4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackblue5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackblue6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackblue7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackblue8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackblue9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackgreen1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackgreen2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackgreen3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackgreen4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackgreen5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackgreen6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackgreen7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackgreen8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackgreen9, i);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healred1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healred2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healred3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healred4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healred5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healred6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healred7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healred8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healred9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healyellow1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healyellow2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healyellow3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healyellow4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healyellow5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healyellow6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healyellow7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healyellow8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healyellow9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healblue1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healblue2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healblue3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healblue4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healblue5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healblue6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healblue7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healblue8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healblue9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healgreen1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healgreen2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healgreen3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healgreen4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healgreen5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healgreen6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healgreen7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healgreen8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healgreen9, i);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(reversered, i);
+                                    break;
+                                case 2:
+                                    Duplicate(reverseyellow, i);
+                                    break;
+                                case 3:
+                                    Duplicate(reverseblue, i);
+                                    break;
+                                case 4:
+                                    Duplicate(reversegreen, i);
+                                    break;
+                            }
+                            break;
+                        case 5:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(skipred, i);
+                                    break;
+                                case 2:
+                                    Duplicate(skipyellow, i);
+                                    break;
+                                case 3:
+                                    Duplicate(skipblue, i);
+                                    break;
+                                case 4:
+                                    Duplicate(skipgreen, i);
+                                    break;
+                            }
+                            break;
+                    }
+
+
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    p1CardColor[rnd] = rndcolor;
+                    p1CardNum[rnd] = rndnum;
+                    p1CardType[rnd] = rndtype;
+                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                    foreach (GameObject choosed in AIchoose)
+                    {
+                        if (choosed.transform.position.x == (rnd - 8))
+                        {
+                            Destroy(choosed);
+                        }
+                    }
+                    switch (rndtype)
+                    {
+                        case 1:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(red0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(red1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(red2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(red3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(red4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(red5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(red6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(red7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(red8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(red9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(yellow0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(yellow1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(yellow2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(yellow3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(yellow4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(yellow5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(yellow6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(yellow7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(yellow8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(yellow9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(blue0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(blue1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(blue2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(blue3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(blue4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(blue5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(blue6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(blue7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(blue8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(blue9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(green0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(green1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(green2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(green3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(green4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(green5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(green6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(green7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(green8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(green9, rnd);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackred1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackred2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackred3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackred4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackred5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackred6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackred7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackred8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackred9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackyellow1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackyellow2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackyellow3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackyellow4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackyellow5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackyellow6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackyellow7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackyellow8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackyellow9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackblue1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackblue2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackblue3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackblue4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackblue5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackblue6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackblue7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackblue8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackblue9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackgreen1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackgreen2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackgreen3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackgreen4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackgreen5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackgreen6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackgreen7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackgreen8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackgreen9, rnd);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healred1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healred2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healred3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healred4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healred5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healred6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healred7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healred8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healred9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healyellow1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healyellow2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healyellow3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healyellow4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healyellow5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healyellow6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healyellow7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healyellow8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healyellow9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healblue1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healblue2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healblue3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healblue4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healblue5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healblue6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healblue7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healblue8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healblue9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healgreen1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healgreen2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healgreen3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healgreen4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healgreen5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healgreen6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healgreen7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healgreen8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healgreen9, rnd);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(reversered, rnd);
+                                    break;
+                                case 2:
+                                    Duplicate(reverseyellow, rnd);
+                                    break;
+                                case 3:
+                                    Duplicate(reverseblue, rnd);
+                                    break;
+                                case 4:
+                                    Duplicate(reversegreen, rnd);
+                                    break;
+                            }
+                            break;
+                        case 5:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(skipred, rnd);
+                                    break;
+                                case 2:
+                                    Duplicate(skipyellow, rnd);
+                                    break;
+                                case 3:
+                                    Duplicate(skipblue, rnd);
+                                    break;
+                                case 4:
+                                    Duplicate(skipgreen, rnd);
+                                    break;
+                            }
+                            break;
+                    }
+
+                }
+                else
+                {
+                    i = rndposition;
+                    p1CardColor[i] = rndcolor;
+                    p1CardNum[i] = rndnum;
+                    p1CardType[i] = rndtype;
+                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                    foreach (GameObject choosed in AIchoose)
+                    {
+                        if (choosed.transform.position.x == (i - 8))
+                        {
+                            Destroy(choosed);
+                        }
+                    }
+                    switch (rndtype)
+                    {
+                        case 1:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(red0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(red1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(red2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(red3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(red4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(red5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(red6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(red7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(red8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(red9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(yellow0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(yellow1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(yellow2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(yellow3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(yellow4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(yellow5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(yellow6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(yellow7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(yellow8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(yellow9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(blue0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(blue1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(blue2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(blue3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(blue4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(blue5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(blue6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(blue7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(blue8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(blue9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(green0, i);
+                                            break;
+                                        case 1:
+                                            Duplicate(green1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(green2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(green3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(green4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(green5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(green6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(green7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(green8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(green9, i);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackred1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackred2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackred3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackred4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackred5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackred6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackred7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackred8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackred9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackyellow1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackyellow2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackyellow3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackyellow4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackyellow5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackyellow6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackyellow7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackyellow8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackyellow9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackblue1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackblue2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackblue3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackblue4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackblue5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackblue6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackblue7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackblue8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackblue9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackgreen1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackgreen2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackgreen3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackgreen4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackgreen5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackgreen6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackgreen7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackgreen8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackgreen9, i);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healred1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healred2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healred3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healred4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healred5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healred6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healred7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healred8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healred9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healyellow1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healyellow2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healyellow3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healyellow4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healyellow5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healyellow6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healyellow7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healyellow8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healyellow9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healblue1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healblue2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healblue3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healblue4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healblue5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healblue6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healblue7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healblue8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healblue9, i);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healgreen1, i);
+                                            break;
+                                        case 2:
+                                            Duplicate(healgreen2, i);
+                                            break;
+                                        case 3:
+                                            Duplicate(healgreen3, i);
+                                            break;
+                                        case 4:
+                                            Duplicate(healgreen4, i);
+                                            break;
+                                        case 5:
+                                            Duplicate(healgreen5, i);
+                                            break;
+                                        case 6:
+                                            Duplicate(healgreen6, i);
+                                            break;
+                                        case 7:
+                                            Duplicate(healgreen7, i);
+                                            break;
+                                        case 8:
+                                            Duplicate(healgreen8, i);
+                                            break;
+                                        case 9:
+                                            Duplicate(healgreen9, i);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(reversered, i);
+                                    break;
+                                case 2:
+                                    Duplicate(reverseyellow, i);
+                                    break;
+                                case 3:
+                                    Duplicate(reverseblue, i);
+                                    break;
+                                case 4:
+                                    Duplicate(reversegreen, i);
+                                    break;
+                            }
+                            break;
+                        case 5:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(skipred, i);
+                                    break;
+                                case 2:
+                                    Duplicate(skipyellow, i);
+                                    break;
+                                case 3:
+                                    Duplicate(skipblue, i);
+                                    break;
+                                case 4:
+                                    Duplicate(skipgreen, i);
+                                    break;
+                            }
+                            break;
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    p1CardColor[rnd] = rndcolor;
+                    p1CardNum[rnd] = rndnum;
+                    p1CardType[rnd] = rndtype;
+                    foreach (GameObject choosed in AIchoose)
+                    {
+                        if (choosed.transform.position.x == (rnd - 8))
+                        {
+                            Destroy(choosed);
+                        }
+                    }
+                    switch (rndtype)
+                    {
+                        case 1:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(red0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(red1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(red2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(red3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(red4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(red5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(red6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(red7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(red8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(red9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(yellow0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(yellow1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(yellow2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(yellow3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(yellow4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(yellow5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(yellow6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(yellow7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(yellow8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(yellow9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(blue0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(blue1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(blue2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(blue3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(blue4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(blue5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(blue6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(blue7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(blue8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(blue9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 0:
+                                            Duplicate(green0, rnd);
+                                            break;
+                                        case 1:
+                                            Duplicate(green1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(green2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(green3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(green4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(green5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(green6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(green7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(green8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(green9, rnd);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackred1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackred2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackred3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackred4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackred5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackred6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackred7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackred8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackred9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackyellow1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackyellow2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackyellow3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackyellow4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackyellow5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackyellow6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackyellow7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackyellow8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackyellow9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackblue1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackblue2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackblue3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackblue4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackblue5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackblue6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackblue7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackblue8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackblue9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(attackgreen1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(attackgreen2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(attackgreen3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(attackgreen4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(attackgreen5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(attackgreen6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(attackgreen7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(attackgreen8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(attackgreen9, rnd);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healred1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healred2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healred3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healred4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healred5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healred6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healred7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healred8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healred9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healyellow1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healyellow2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healyellow3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healyellow4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healyellow5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healyellow6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healyellow7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healyellow8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healyellow9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healblue1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healblue2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healblue3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healblue4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healblue5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healblue6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healblue7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healblue8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healblue9, rnd);
+                                            break;
+                                    }
+                                    break;
+                                case 4:
+                                    switch (rndnum)
+                                    {
+                                        case 1:
+                                            Duplicate(healgreen1, rnd);
+                                            break;
+                                        case 2:
+                                            Duplicate(healgreen2, rnd);
+                                            break;
+                                        case 3:
+                                            Duplicate(healgreen3, rnd);
+                                            break;
+                                        case 4:
+                                            Duplicate(healgreen4, rnd);
+                                            break;
+                                        case 5:
+                                            Duplicate(healgreen5, rnd);
+                                            break;
+                                        case 6:
+                                            Duplicate(healgreen6, rnd);
+                                            break;
+                                        case 7:
+                                            Duplicate(healgreen7, rnd);
+                                            break;
+                                        case 8:
+                                            Duplicate(healgreen8, rnd);
+                                            break;
+                                        case 9:
+                                            Duplicate(healgreen9, rnd);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(reversered, rnd);
+                                    break;
+                                case 2:
+                                    Duplicate(reverseyellow, rnd);
+                                    break;
+                                case 3:
+                                    Duplicate(reverseblue, rnd);
+                                    break;
+                                case 4:
+                                    Duplicate(reversegreen, rnd);
+                                    break;
+                            }
+                            break;
+                        case 5:
+                            switch (rndcolor)
+                            {
+                                case 1:
+                                    Duplicate(skipred, rnd);
+                                    break;
+                                case 2:
+                                    Duplicate(skipyellow, rnd);
+                                    break;
+                                case 3:
+                                    Duplicate(skipblue, rnd);
+                                    break;
+                                case 4:
+                                    Duplicate(skipgreen, rnd);
+                                    break;
+                            }
+                            break;
+                    }
+                }
+                break;
+
+            case 1:
+                if (ai1CardAmount < 20)
+                {
+                    while (ai1CardColor[i] != -1)
+                    {
+                        i++;
+                    }
+                    if (ai1CardColor[i] == -1)
+                    {
+                        ai1CardColor[i] = rndcolor;
+                        ai1CardNum[i] = rndnum;
+                        ai1CardType[i] = rndtype;
+                        ai1CardAmount += 1;
+                    }
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    ai1CardColor[rnd] = rndcolor;
+                    ai1CardNum[rnd] = rndnum;
+                    ai1CardType[rnd] = rndtype;
+                }
+                else
+                {
+                    i = rndposition;
+                    ai1CardColor[i] = rndcolor;
+                    ai1CardNum[i] = rndnum;
+                    ai1CardType[i] = rndtype;
+
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    ai1CardColor[rnd] = rndcolor;
+                    ai1CardNum[rnd] = rndnum;
+                    ai1CardType[rnd] = rndtype;
+                }
+                break;
+            case 2:
+                if (ai2CardAmount < 20)
+                {
+                    while (ai2CardColor[i] != -1)
+                    {
+                        i++;
+                    }
+                    if (ai2CardColor[i] == -1)
+                    {
+                        ai2CardColor[i] = rndcolor;
+                        ai2CardNum[i] = rndnum;
+                        ai2CardType[i] = rndtype;
+                        ai2CardAmount += 1;
+                    }
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    ai2CardColor[rnd] = rndcolor;
+                    ai2CardNum[rnd] = rndnum;
+                    ai2CardType[rnd] = rndtype;
+                }
+                else
+                {
+                    i = rndposition;
+                    ai2CardColor[i] = rndcolor;
+                    ai2CardNum[i] = rndnum;
+                    ai2CardType[i] = rndtype;
+
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    ai2CardColor[rnd] = rndcolor;
+                    ai2CardNum[rnd] = rndnum;
+                    ai2CardType[rnd] = rndtype;
+                }
+                break;
+            case 3:
+                if (ai3CardAmount < 20)
+                {
+                    while (ai3CardColor[i] != -1)
+                    {
+                        i++;
+                    }
+                    if (ai3CardColor[i] == -1)
+                    {
+                        ai3CardColor[i] = rndcolor;
+                        ai3CardNum[i] = rndnum;
+                        ai3CardType[i] = rndtype;
+                        ai3CardAmount += 1;
+                    }
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    ai3CardColor[rnd] = rndcolor;
+                    ai3CardNum[rnd] = rndnum;
+                    ai3CardType[rnd] = rndtype;
+                }
+                else
+                {
+                    i = rndposition;
+                    ai3CardColor[i] = rndcolor;
+                    ai3CardNum[i] = rndnum;
+                    ai3CardType[i] = rndtype;
+
+                    int rnd = (int)Random.Range(0, 20);
+                    while (rnd == i)
+                    {
+                        rnd = (int)Random.Range(0, 20);
+                    }
+                    rndcolor = (int)Random.Range(1, 5);
+                    rndnum = (int)Random.Range(0, 10);
+                    rndtype = (int)Random.Range(1, 3);
+                    ai3CardColor[rnd] = rndcolor;
+                    ai3CardNum[rnd] = rndnum;
+                    ai3CardType[rnd] = rndtype;
+                }
+                break;
+        }
+    }
     public void GetRandomCard(int target)
     {
-        int rndcolor = Random.Range(1, 5); //1=red, 2=yellow, 3=blue, 4=green
-        int rndnum = Random.Range(0, 10);
+        int rndcolor = (int)Random.Range(1, 5);
+        int rndnum = (int)Random.Range(0, 10);
+        int rndtype = (int)Random.Range(1, 3);
         int i = 0;
         switch (target)
         {
@@ -1257,151 +5012,471 @@ public class PlayerState : MonoBehaviour
                 if (p1CardColor[i] == -1)
                 {
                     p1CardColor[i] = rndcolor;
-                    p1CardNum[i] = rndnum;
+                    p1CardType[i] = rndtype;
+                    if (rndtype == 4 || rndtype == 5)
+                    {
+                        p1CardNum[i] = -2;
+                    }
+                    else if (rndtype == 2||rndtype==3)
+                    {
+                        if (rndnum == 0)
+                        {
+                            rndnum = 1;
+                        }
+                        p1CardNum[i] = rndnum;
+                    }
+                    else p1CardNum[i] = rndnum;
                 }
-                switch (rndcolor)
+                switch (rndtype)
                 {
                     case 1:
-                        switch (rndnum)
+                        switch (rndcolor)
                         {
-                            case 0:
-                                Duplicate(red0, i);
-                                break;
                             case 1:
-                                Duplicate(red1, i);
+                                switch (rndnum)
+                                {
+                                    case 0:
+                                        Duplicate(red0, i);
+                                        break;
+                                    case 1:
+                                        Duplicate(red1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(red2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(red3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(red4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(red5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(red6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(red7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(red8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(red9, i);
+                                        break;
+                                }
                                 break;
                             case 2:
-                                Duplicate(red2, i);
+                                switch (rndnum)
+                                {
+                                    case 0:
+                                        Duplicate(yellow0, i);
+                                        break;
+                                    case 1:
+                                        Duplicate(yellow1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(yellow2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(yellow3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(yellow4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(yellow5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(yellow6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(yellow7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(yellow8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(yellow9, i);
+                                        break;
+                                }
                                 break;
                             case 3:
-                                Duplicate(red3, i);
+                                switch (rndnum)
+                                {
+                                    case 0:
+                                        Duplicate(blue0, i);
+                                        break;
+                                    case 1:
+                                        Duplicate(blue1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(blue2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(blue3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(blue4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(blue5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(blue6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(blue7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(blue8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(blue9, i);
+                                        break;
+                                }
                                 break;
                             case 4:
-                                Duplicate(red4, i);
-                                break;
-                            case 5:
-                                Duplicate(red5, i);
-                                break;
-                            case 6:
-                                Duplicate(red6, i);
-                                break;
-                            case 7:
-                                Duplicate(red7, i);
-                                break;
-                            case 8:
-                                Duplicate(red8, i);
-                                break;
-                            case 9:
-                                Duplicate(red9, i);
+                                switch (rndnum)
+                                {
+                                    case 0:
+                                        Duplicate(green0, i);
+                                        break;
+                                    case 1:
+                                        Duplicate(green1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(green2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(green3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(green4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(green5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(green6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(green7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(green8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(green9, i);
+                                        break;
+                                }
                                 break;
                         }
                         break;
                     case 2:
-                        switch (rndnum)
+                        switch (rndcolor)
                         {
-                            case 0:
-                                Duplicate(yellow0, i);
-                                break;
                             case 1:
-                                Duplicate(yellow1, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(attackred1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(attackred2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(attackred3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(attackred4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(attackred5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(attackred6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(attackred7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(attackred8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(attackred9, i);
+                                        break;
+                                }
                                 break;
                             case 2:
-                                Duplicate(yellow2, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(attackyellow1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(attackyellow2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(attackyellow3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(attackyellow4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(attackyellow5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(attackyellow6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(attackyellow7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(attackyellow8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(attackyellow9, i);
+                                        break;
+                                }
                                 break;
                             case 3:
-                                Duplicate(yellow3, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(attackblue1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(attackblue2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(attackblue3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(attackblue4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(attackblue5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(attackblue6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(attackblue7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(attackblue8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(attackblue9, i);
+                                        break;
+                                }
                                 break;
                             case 4:
-                                Duplicate(yellow4, i);
-                                break;
-                            case 5:
-                                Duplicate(yellow5, i);
-                                break;
-                            case 6:
-                                Duplicate(yellow6, i);
-                                break;
-                            case 7:
-                                Duplicate(yellow7, i);
-                                break;
-                            case 8:
-                                Duplicate(yellow8, i);
-                                break;
-                            case 9:
-                                Duplicate(yellow9, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(attackgreen1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(attackgreen2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(attackgreen3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(attackgreen4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(attackgreen5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(attackgreen6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(attackgreen7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(attackgreen8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(attackgreen9, i);
+                                        break;
+                                }
                                 break;
                         }
                         break;
                     case 3:
-                        switch (rndnum)
+                        switch (rndcolor)
                         {
-                            case 0:
-                                Duplicate(blue0, i);
-                                break;
                             case 1:
-                                Duplicate(blue1, i);
+                                switch (rndnum)
+                                { 
+                                    case 1:
+                                        Duplicate(healred1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(healred2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(healred3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(healred4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(healred5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(healred6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(healred7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(healred8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(healred9, i);
+                                        break;
+                                }
                                 break;
                             case 2:
-                                Duplicate(blue2, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(healyellow1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(healyellow2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(healyellow3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(healyellow4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(healyellow5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(healyellow6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(healyellow7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(healyellow8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(healyellow9, i);
+                                        break;
+                                }
                                 break;
                             case 3:
-                                Duplicate(blue3, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(healblue1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(healblue2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(healblue3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(healblue4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(healblue5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(healblue6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(healblue7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(healblue8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(healblue9, i);
+                                        break;
+                                }
                                 break;
                             case 4:
-                                Duplicate(blue4, i);
-                                break;
-                            case 5:
-                                Duplicate(blue5, i);
-                                break;
-                            case 6:
-                                Duplicate(blue6, i);
-                                break;
-                            case 7:
-                                Duplicate(blue7, i);
-                                break;
-                            case 8:
-                                Duplicate(blue8, i);
-                                break;
-                            case 9:
-                                Duplicate(blue9, i);
+                                switch (rndnum)
+                                {
+                                    case 1:
+                                        Duplicate(healgreen1, i);
+                                        break;
+                                    case 2:
+                                        Duplicate(healgreen2, i);
+                                        break;
+                                    case 3:
+                                        Duplicate(healgreen3, i);
+                                        break;
+                                    case 4:
+                                        Duplicate(healgreen4, i);
+                                        break;
+                                    case 5:
+                                        Duplicate(healgreen5, i);
+                                        break;
+                                    case 6:
+                                        Duplicate(healgreen6, i);
+                                        break;
+                                    case 7:
+                                        Duplicate(healgreen7, i);
+                                        break;
+                                    case 8:
+                                        Duplicate(healgreen8, i);
+                                        break;
+                                    case 9:
+                                        Duplicate(healgreen9, i);
+                                        break;
+                                }
                                 break;
                         }
                         break;
                     case 4:
-                        switch (rndnum)
+                        p1CardNum[i] = -2;
+                        switch (rndcolor)
                         {
-                            case 0:
-                                Duplicate(green0, i);
-                                break;
                             case 1:
-                                Duplicate(green1, i);
+                                Duplicate(reversered, i);
                                 break;
                             case 2:
-                                Duplicate(green2, i);
+                                Duplicate(reverseyellow, i);
                                 break;
                             case 3:
-                                Duplicate(green3, i);
+                                Duplicate(reverseblue, i);
                                 break;
                             case 4:
-                                Duplicate(green4, i);
-                                break;
-                            case 5:
-                                Duplicate(green5, i);
-                                break;
-                            case 6:
-                                Duplicate(green6, i);
-                                break;
-                            case 7:
-                                Duplicate(green7, i);
-                                break;
-                            case 8:
-                                Duplicate(green8, i);
-                                break;
-                            case 9:
-                                Duplicate(green9, i);
+                                Duplicate(reversegreen, i);
                                 break;
                         }
                         break;
-                }
+                    case 5:
+                        p1CardNum[i] = -2;
+                        switch (rndcolor)
+                        {
+                            case 1:
+                                Duplicate(skipred, i);
+                                break;
+                            case 2:
+                                Duplicate(skipyellow, i);
+                                break;
+                            case 3:
+                                Duplicate(skipblue, i);
+                                break;
+                            case 4:
+                                Duplicate(skipgreen, i);
+                                break;
+                        }
+                        break;
+                }   
                 break;
             case 1:
                 while (ai1CardColor[i] != -1)
@@ -1411,7 +5486,20 @@ public class PlayerState : MonoBehaviour
                 if (ai1CardColor[i] == -1)
                 {
                     ai1CardColor[i] = rndcolor;
-                    ai1CardNum[i] = rndnum;
+                    ai1CardType[i] = rndtype;
+                    if (rndtype == 4 || rndtype == 5)
+                    {
+                        ai1CardNum[i] = -2;
+                    }
+                    else if (rndtype == 2 || rndtype == 3)
+                    {
+                        if (rndnum == 0)
+                        {
+                            rndnum = 1;
+                        }
+                        ai1CardNum[i] = rndnum;
+                    }
+                    else ai1CardNum[i] = rndnum;
                 }
                 break;
             case 2:
@@ -1422,7 +5510,20 @@ public class PlayerState : MonoBehaviour
                 if (ai2CardColor[i] == -1)
                 {
                     ai2CardColor[i] = rndcolor;
-                    ai2CardNum[i] = rndnum;
+                    ai2CardType[i] = rndtype;
+                    if (rndtype == 4 || rndtype == 5)
+                    {
+                        ai2CardNum[i] = -2;
+                    }
+                    else if (rndtype == 2 || rndtype == 3)
+                    {
+                        if (rndnum == 0)
+                        {
+                            rndnum = 1;
+                        }
+                        ai2CardNum[i] = rndnum;
+                    }
+                    else ai2CardNum[i] = rndnum;
                 }
                 break;
             case 3:
@@ -1433,7 +5534,20 @@ public class PlayerState : MonoBehaviour
                 if (ai3CardColor[i] == -1)
                 {
                     ai3CardColor[i] = rndcolor;
-                    ai3CardNum[i] = rndnum;
+                    ai3CardType[i] = rndtype;
+                    if (rndtype == 4 || rndtype == 5)
+                    {
+                        ai3CardNum[i] = -2;
+                    }
+                    else if (rndtype == 2 || rndtype == 3)
+                    {
+                        if (rndnum == 0)
+                        {
+                            rndnum = 1;
+                        }
+                        ai3CardNum[i] = rndnum;
+                    }
+                    else ai3CardNum[i] = rndnum;
                 }
                 break;
         }
@@ -1443,7 +5557,6 @@ public class PlayerState : MonoBehaviour
         nextP1SpawnPoint = p1SpawnPoint.position;
         nextP1SpawnPoint.x = p1SpawnPoint.position.x + position;
         GameObject clone = Instantiate(card, nextP1SpawnPoint, p1SpawnPoint.rotation);
-
     }
 }
 
