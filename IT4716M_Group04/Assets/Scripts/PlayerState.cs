@@ -134,6 +134,7 @@ public class PlayerState : MonoBehaviour
     public Slider roundTimeSlider;
     public Button getCardButton;
     public GameObject targetMenu;
+    public GameObject currentRound;
 
     private int round = 0;
 
@@ -144,12 +145,21 @@ public class PlayerState : MonoBehaviour
     public GameObject TimerCounter;
     public GameObject RoundTimeCounter;
 
+    public AudioSource click;
+    public AudioSource place;
+    public AudioSource send;
+    public AudioSource attack;
+    public AudioSource heal;
+
+    public Slider soundVolumeSlider;
+
     Text roundTimer;
     Text timer;
     Text playerCounterText;
     Text ai1CounterText;
     Text ai2CounterText;
     Text ai3CounterText;
+    Text currentRoundText;
 
     Vector3 nextP1SpawnPoint;
     Vector3 cardXPosition;
@@ -192,16 +202,20 @@ public class PlayerState : MonoBehaviour
 
     //Color: 1=red, 2=yellow, 3=blue, 4=green
     //Type: 1=basic , 2=attack, 3=heal, 4=reverse, 5=skip
-
-
+    public void Click()
+    {
+        click.Play();
+    }
     private void Start()
     {
+        send.Play();
         roundTimer = RoundTimeCounter.GetComponent<Text>();
         timer = TimerCounter.GetComponent<Text>();
         playerCounterText = playerCounter.GetComponent<Text>();
         ai1CounterText = ai1Counter.GetComponent<Text>();
         ai2CounterText = ai2Counter.GetComponent<Text>();
         ai3CounterText = ai3Counter.GetComponent<Text>();
+        currentRoundText = currentRound.GetComponent<Text>();
 
         StartCard();
         for (int a=0;a<10;a++)
@@ -214,6 +228,13 @@ public class PlayerState : MonoBehaviour
     }
     private void Update()
     {
+        click.volume = soundVolumeSlider.value;
+        place.volume = soundVolumeSlider.value;
+        send.volume = soundVolumeSlider.value;
+        attack.volume = soundVolumeSlider.value;
+        heal.volume = soundVolumeSlider.value;
+
+
         if (sec >= 0 && sec < 10)
         {
             timer.text = "Time Left: 0" + Mathf.Floor(mins) + ":" + "0" + Mathf.Floor(sec);
@@ -235,6 +256,7 @@ public class PlayerState : MonoBehaviour
         ai1CounterText.text = "Card Left: " + ai1CardAmount.ToString() + " " + "Life: " + ai1Life.ToString();
         ai2CounterText.text = "Card Left: " + ai2CardAmount.ToString() + " " + "Life: " + ai2Life.ToString();
         ai3CounterText.text = "Card Left: " + ai3CardAmount.ToString() + " " + "Life: " + ai3Life.ToString();
+        currentRoundText.text = "Round: P" + (round+1).ToString();
 
         Player();
         AI1();
@@ -272,31 +294,30 @@ public class PlayerState : MonoBehaviour
             }
             if (Input.GetButtonDown("Fire1"))
             {
-                if (clockwise == false)
-                {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit pointer;
-                    if (Physics.Raycast(ray, out pointer, 20))
+                if (Physics.Raycast(ray, out pointer, 20))
+                {
+                    if (pointer.collider.tag == "Card")
                     {
-                        if (pointer.collider.tag == "Card")
+                        cardXPosition = pointer.collider.GetComponent<Transform>().position;
+                        if ((p1CardColor[(int)cardXPosition.x + 8] == lastCard[0] || (p1CardNum[(int)cardXPosition.x + 8] == lastCard[1] && p1CardNum[(int)cardXPosition.x + 8] != (-2)) || (p1CardType[(int)cardXPosition.x + 8] == lastCard[2] &&
+                            (p1CardType[(int)cardXPosition.x + 8] == 4 || p1CardType[(int)cardXPosition.x + 8] == 5))) && choosingTarget == false)
                         {
-                            cardXPosition = pointer.collider.GetComponent<Transform>().position;
-                            if ((p1CardColor[(int)cardXPosition.x + 8] == lastCard[0] || p1CardNum[(int)cardXPosition.x + 8] == lastCard[1] || (p1CardType[(int)cardXPosition.x + 8] == lastCard[2] &&
-                                (p1CardType[(int)cardXPosition.x + 8] == 4 || p1CardType[(int)cardXPosition.x + 8] == 5))) && choosingTarget == false)
+                            if (p1CardType[(int)cardXPosition.x + 8] != 2)
                             {
-                                if (p1CardType[(int)cardXPosition.x + 8] != 2)
-                                    {
-                                    PlaceCard(cardXPosition);
-                                    Destroy(pointer.collider.gameObject);
-                                    playerCardAmount -= 1;
-                                    nextOne = true;
-                                    roundTimeSlider.gameObject.SetActive(false);
-                                    getCardButton.gameObject.SetActive(false);
-                                    if (p1CardType[(int)cardXPosition.x + 8] == 5)
-                                    {
+                                Destroy(pointer.collider.gameObject);
+                                playerCardAmount -= 1;
+                                nextOne = true;
+                                roundTimeSlider.gameObject.SetActive(false);
+                                getCardButton.gameObject.SetActive(false);
+                                if (p1CardType[(int)cardXPosition.x + 8] == 5)
+                                {
                                         round = 2;
-                                    }
-                                    else if (p1CardType[(int)cardXPosition.x + 8] == 4)
+                                }
+                                else if (p1CardType[(int)cardXPosition.x + 8] == 4)
+                                {
+                                    if (clockwise == false)
                                     {
                                         round = 3;
                                         clockwise = true;
@@ -309,52 +330,23 @@ public class PlayerState : MonoBehaviour
                                 }
                                 else
                                 {
-                                    choosingTarget = true;
-                                    targetMenu.SetActive(true);
-                                    attackValue = p1CardNum[(int)cardXPosition.x + 8];
-                                    attackCardPosition = cardXPosition;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit pointer;
-                    if (Physics.Raycast(ray, out pointer, 20))
-                    {
-                        if (pointer.collider.tag == "Card")
-                        {
-                            cardXPosition = pointer.collider.GetComponent<Transform>().position;
-                            if ((p1CardColor[(int)cardXPosition.x + 8] == lastCard[0] || p1CardNum[(int)cardXPosition.x + 8] == lastCard[1] || (p1CardType[(int)cardXPosition.x + 8] == lastCard[2] &&
-                                (p1CardType[(int)cardXPosition.x + 8] == 4 || p1CardType[(int)cardXPosition.x + 8] == 5))) && choosingTarget == false)
-                            {
-                                if (p1CardType[(int)cardXPosition.x + 8] != 2)
-                                {
-                                    PlaceCard(cardXPosition);
-                                    Destroy(pointer.collider.gameObject);
-                                    playerCardAmount -= 1;
-                                    nextOne = true;
-                                    roundTimeSlider.gameObject.SetActive(false);
-                                    getCardButton.gameObject.SetActive(false);
-                                    if (p1CardType[(int)cardXPosition.x + 8] == 5)
-                                    {
-                                        round = 2;
-                                    }
-                                    else if (p1CardType[(int)cardXPosition.x + 8] == 4)
+                                    if (clockwise == false)
                                     {
                                         round = 1;
                                     }
-                                    else round = 3;
+                                    else
+                                    {
+                                        round = 3;
+                                    }
                                 }
-                                else
-                                {
-                                    choosingTarget = true;
-                                    targetMenu.SetActive(true);
-                                    attackValue = p1CardNum[(int)cardXPosition.x + 8];
-                                    attackCardPosition = cardXPosition;
-                                }
+                                PlaceCard(cardXPosition);
+                            }
+                            else
+                            {
+                                choosingTarget = true;
+                                targetMenu.SetActive(true);
+                                attackValue = p1CardNum[(int)cardXPosition.x + 8];
+                                attackCardPosition = cardXPosition;
                             }
                         }
                     }
@@ -363,21 +355,21 @@ public class PlayerState : MonoBehaviour
             if (roundTime < 0)
             {
                 int i = 0;
-                while (p1CardColor[i] != lastCard[0] && p1CardNum[i] != lastCard[1] && p1CardType[i] != lastCard[2] && i < 19)
+                while (p1CardColor[i] != lastCard[0] && (p1CardNum[i] != lastCard[1] && p1CardNum[i] == (-2)) && (p1CardType[i] != lastCard[2] && (p1CardType[i] != 4 || p1CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (p1CardColor[i] == lastCard[0] || p1CardNum[i] == lastCard[1] || p1CardType[i] == lastCard[2])
+                if (p1CardColor[i] == lastCard[0] || (p1CardNum[i] == lastCard[1] && p1CardNum[i] != (-2)) || (p1CardType[i] == lastCard[2] && (p1CardType[i] == 4 || p1CardType[i] == 5)))
                 {
                     if (p1CardType[i] != 2)
                     {
                         Vector3 cp = p1SpawnPoint.position;
                         cp.x = i - 8;
-                        PlaceCard(cp);
                         playerCardAmount -= 1;
                         nextOne = true;
                         GameObject[] AIchoose;
                         AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        roundTimeSlider.gameObject.SetActive(false);
                         foreach (GameObject choosed in AIchoose)
                         {
                             if (choosed.transform.position == cp)
@@ -387,21 +379,18 @@ public class PlayerState : MonoBehaviour
                         }
                         if (p1CardType[i] == 5)
                         {
-                            roundTimeSlider.gameObject.SetActive(false);
                             round = 2;
                         }
                         else if (p1CardType[i] == 4)
                         {
                             if (clockwise == false)
                             {
-                                roundTimeSlider.gameObject.SetActive(false);
                                 round = 3;
                                 clockwise = true;
                             }
                             else
                             {
                                 round = 1;
-                                roundTimeSlider.gameObject.SetActive(false);
                                 clockwise = false;
                             }
                         }
@@ -412,16 +401,15 @@ public class PlayerState : MonoBehaviour
                                 GetCard(0);
                                 nextOne = true;
                                 round = 1;
-                                roundTimeSlider.gameObject.SetActive(false);
                             }
                             else
                             {
                                 GetCard(0);
                                 nextOne = true;
                                 round = 3;
-                                roundTimeSlider.gameObject.SetActive(false);
                             }
                         }
+                        PlaceCard(cp);
                     }
                     else
                     {
@@ -463,13 +451,12 @@ public class PlayerState : MonoBehaviour
             if (roundTime < 18)
             {
                 int i = 0;
-                while (ai1CardColor[i] != lastCard[0] && ai1CardNum[i] != lastCard[1] && (ai1CardType[i] != lastCard[2] && (ai1CardType[i] != 4 || ai1CardType[i] != 5)) && i < 19)
+                while (ai1CardColor[i] != lastCard[0] && (ai1CardNum[i] != lastCard[1] && ai1CardNum[i] == (-2)) && (ai1CardType[i] != lastCard[2] && (ai1CardType[i] != 4 || ai1CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (ai1CardColor[i] == lastCard[0] || ai1CardNum[i] == lastCard[1] || (ai1CardType[i] == lastCard[2] && (ai1CardType[i] == 4 || ai1CardType[i] == 5)))
+                if (ai1CardColor[i] == lastCard[0] || (ai1CardNum[i] == lastCard[1] && ai1CardNum[i] != (-2)) || (ai1CardType[i] == lastCard[2] && (ai1CardType[i] == 4 || ai1CardType[i] == 5)))
                 {
-                    AIPlaceCard(1, i);
                     nextOne = true;
                     if (ai1CardType[i] != 5)
                     {
@@ -479,27 +466,22 @@ public class PlayerState : MonoBehaviour
                         }
                         else round = 0;
                     }
-                    else
+                    else if(ai1CardType[i] == 5)
                     {
                         round = 3;
                     }
+                    AIPlaceCard(1, i);
                 }
                 else
                 {
                     GetCard(1);
                     nextOne = true;
-                    if (ai1CardType[i] != 5)
+                    if (clockwise == false)
                     {
-                        if (clockwise == false)
-                        {
-                            round = 2;
-                        }
-                        else round = 0;
+                        round = 2;
                     }
-                    else
-                    {
-                        round = 3;
-                    }
+                    else round = 0;
+                    
                 }
             }
         }
@@ -517,13 +499,12 @@ public class PlayerState : MonoBehaviour
             if (roundTime < 18)
             {
                 int i = 0;
-                while (ai2CardColor[i] != lastCard[0] && ai2CardNum[i] != lastCard[1] && (ai2CardType[i] != lastCard[2] && (ai2CardType[i] != 4 || ai2CardType[i] != 5)) && i < 19)
+                while (ai2CardColor[i] != lastCard[0] && (ai2CardNum[i] != lastCard[1] && ai2CardNum[i] == (-2)) && (ai2CardType[i] != lastCard[2] && (ai2CardType[i] != 4 || ai2CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (ai2CardColor[i] == lastCard[0] || ai2CardNum[i] == lastCard[1] || (ai2CardType[i] == lastCard[2] && (ai2CardType[i] == 4 || ai2CardType[i] == 5)))
+                if (ai2CardColor[i] == lastCard[0] || (ai2CardNum[i] == lastCard[1] && ai2CardNum[i] != (-2)) || (ai2CardType[i] == lastCard[2] && (ai2CardType[i] == 4 || ai2CardType[i] == 5)))
                 {
-                    AIPlaceCard(2, i);
                     nextOne = true;
                     if (ai2CardType[i] != 5)
                     {
@@ -533,27 +514,21 @@ public class PlayerState : MonoBehaviour
                         }
                         else round = 1;
                     }
-                    else
+                    else if (ai2CardType[i] == 5)
                     {
-                        round = 2;
+                        round = 0;
                     }
+                    AIPlaceCard(2, i);
                 }
                 else
                 {
                     GetCard(2);
                     nextOne = true;
-                    if (ai2CardType[i] != 5)
+                    if (clockwise == false)
                     {
-                        if (clockwise == false)
-                        {
-                            round = 3;
-                        }
-                        else round = 1;
+                        round = 3;
                     }
-                    else
-                    {
-                        round = 2;
-                    }
+                    else round = 1;
                 }
             }
         }
@@ -571,13 +546,12 @@ public class PlayerState : MonoBehaviour
             if (roundTime < 18)
             {
                 int i = 0;
-                while (ai3CardColor[i] != lastCard[0] && ai3CardNum[i] != lastCard[1] && (ai3CardType[i] != lastCard[2] && (ai3CardType[i] != 4 || ai3CardType[i] != 5)) && i < 19)
+                while (ai3CardColor[i] != lastCard[0] && (ai3CardNum[i] != lastCard[1] && ai3CardNum[i] == (-2)) && (ai3CardType[i] != lastCard[2] && (ai3CardType[i] != 4 || ai3CardType[i] != 5)) && i < 19)
                 {
                     i++;
                 }
-                if (ai3CardColor[i] == lastCard[0] || ai3CardNum[i] == lastCard[1] || (ai3CardType[i] == lastCard[2] && (ai3CardType[i] == 4 || ai3CardType[i] == 5)))
+                if (ai3CardColor[i] == lastCard[0] || (ai3CardNum[i] == lastCard[1] && ai3CardNum[i] != (-2)) || (ai3CardType[i] == lastCard[2] && (ai3CardType[i] == 4 || ai3CardType[i] == 5)))
                 {
-                    AIPlaceCard(3, i);
                     nextOne = true;
                     if (ai3CardType[i] != 5)
                     {
@@ -587,27 +561,21 @@ public class PlayerState : MonoBehaviour
                         }
                         else round = 2;
                     }
-                    else
+                    else if (ai3CardType[i] == 5)
                     {
-                        round = 3;
+                        round = 1;
                     }
+                    AIPlaceCard(3, i);
                 }
                 else
                 {
                     GetCard(3);
                     nextOne = true;
-                    if (ai3CardType[i] != 5)
+                    if (clockwise == false)
                     {
-                        if (clockwise == false)
-                        {
-                            round = 0;
-                        }
-                        else round = 2;
+                        round = 0;
                     }
-                    else
-                    {
-                        round = 3;
-                    }
+                    else round = 2;
                 }
             }
         }
@@ -617,7 +585,7 @@ public class PlayerState : MonoBehaviour
         GameObject startCard;
         int rndcolor = Random.Range(1, 5); //1=red, 2=yellow, 3=blue, 4=green
         int rndnum = Random.Range(0, 10);
-        int rndtype = Random.Range(1, 5);
+        int rndtype = Random.Range(1, 6);
         Vector3 startPoint = middle.position;
         switch (rndcolor)
         {
@@ -934,6 +902,7 @@ public class PlayerState : MonoBehaviour
                 }
                 break;
         }
+        attack.Play();
     }
 
     public void AIAttack(int target, int position)
@@ -1009,6 +978,7 @@ public class PlayerState : MonoBehaviour
                 }
                 break;
         }
+        attack.Play();
     }
    
     public void GetCard(int target) //0=player 1,2,3=AI
@@ -1103,6 +1073,7 @@ public class PlayerState : MonoBehaviour
             default:
                 break;
         }
+        send.Play();
     }
 
     public void AIPlaceCard(int target, int cp)
@@ -2506,6 +2477,7 @@ public class PlayerState : MonoBehaviour
             ai3CardType[cp] = -1;
             ai3CardAmount -= 1;
         }
+        place.Play();
         
     }
     public void PlaceCard(Vector3 position)
@@ -2973,6 +2945,7 @@ public class PlayerState : MonoBehaviour
         p1CardNum[cp] = -1;
         p1CardType[cp] = -1;
         targetMenu.SetActive(false);
+        place.Play();
     }
 
     public void PlaceMiddle(GameObject card)
@@ -2987,7 +2960,7 @@ public class PlayerState : MonoBehaviour
         GameObject[] AIchoose;
         int rndcolor = (int)Random.Range(1, 5);
         int rndnum = (int)Random.Range(0, 10);
-        int rndtype = (int)Random.Range(1, 3);
+        int rndtype = (int)Random.Range(1, 6);
         int rndposition = (int)Random.Range(0, 20);
         int i = 0;
         switch (target)
@@ -5000,7 +4973,7 @@ public class PlayerState : MonoBehaviour
     {
         int rndcolor = (int)Random.Range(1, 5);
         int rndnum = (int)Random.Range(0, 10);
-        int rndtype = (int)Random.Range(1, 3);
+        int rndtype = (int)Random.Range(1, 6);
         int i = 0;
         switch (target)
         {
@@ -5441,7 +5414,6 @@ public class PlayerState : MonoBehaviour
                         }
                         break;
                     case 4:
-                        p1CardNum[i] = -2;
                         switch (rndcolor)
                         {
                             case 1:
@@ -5459,7 +5431,6 @@ public class PlayerState : MonoBehaviour
                         }
                         break;
                     case 5:
-                        p1CardNum[i] = -2;
                         switch (rndcolor)
                         {
                             case 1:
