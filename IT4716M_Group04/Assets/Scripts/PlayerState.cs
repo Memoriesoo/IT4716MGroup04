@@ -145,6 +145,9 @@ public class PlayerState : MonoBehaviour
     public GameObject TimerCounter;
     public GameObject RoundTimeCounter;
 
+    public GameObject win;
+    public GameObject lose;
+
     public AudioSource click;
     public AudioSource place;
     public AudioSource send;
@@ -152,6 +155,7 @@ public class PlayerState : MonoBehaviour
     public AudioSource heal;
 
     public Slider soundVolumeSlider;
+
 
     Text roundTimer;
     Text timer;
@@ -228,6 +232,14 @@ public class PlayerState : MonoBehaviour
     }
     private void Update()
     {
+        if(ai1Life <= 0 && ai2Life <= 0 && ai3Life <= 00)
+        {
+            Win();
+        }
+        if(playerLife <= 0 || ((mins <= 0 && sec <= 0) && (playerLife <= ai1Life || playerLife <= ai2Life || playerLife <= ai3Life)))
+        {
+            Lose();
+        }
         click.volume = soundVolumeSlider.value;
         place.volume = soundVolumeSlider.value;
         send.volume = soundVolumeSlider.value;
@@ -443,45 +455,48 @@ public class PlayerState : MonoBehaviour
     {
         if (round == 1)
         {
-            if (nextOne == true)
+            if (ai1Life > 0)
             {
-                roundTime = 20;
-                nextOne = false;
-            }
-            if (roundTime < 18)
-            {
-                int i = 0;
-                while (ai1CardColor[i] != lastCard[0] && (ai1CardNum[i] != lastCard[1] && ai1CardNum[i] == (-2)) && (ai1CardType[i] != lastCard[2] && (ai1CardType[i] != 4 || ai1CardType[i] != 5)) && i < 19)
+                if (nextOne == true)
                 {
-                    i++;
+                    roundTime = 20;
+                    nextOne = false;
                 }
-                if (ai1CardColor[i] == lastCard[0] || (ai1CardNum[i] == lastCard[1] && ai1CardNum[i] != (-2)) || (ai1CardType[i] == lastCard[2] && (ai1CardType[i] == 4 || ai1CardType[i] == 5)))
+                if (roundTime < 18)
                 {
-                    nextOne = true;
-                    if (ai1CardType[i] != 5)
+                    int i = 0;
+                    while (ai1CardColor[i] != lastCard[0] && (ai1CardNum[i] != lastCard[1] && ai1CardNum[i] == (-2)) && (ai1CardType[i] != lastCard[2] && (ai1CardType[i] != 4 || ai1CardType[i] != 5)) && i < 19)
                     {
+                        i++;
+                    }
+                    if (ai1CardColor[i] == lastCard[0] || (ai1CardNum[i] == lastCard[1] && ai1CardNum[i] != (-2)) || (ai1CardType[i] == lastCard[2] && (ai1CardType[i] == 4 || ai1CardType[i] == 5)))
+                    {
+                        nextOne = true;
+                        if (ai1CardType[i] != 5)
+                        {
+                            if (clockwise == false)
+                            {
+                                round = 2;
+                            }
+                            else round = 0;
+                        }
+                        else if (ai1CardType[i] == 5)
+                        {
+                            round = 3;
+                        }
+                        AIPlaceCard(1, i);
+                    }
+                    else
+                    {
+                        GetCard(1);
+                        nextOne = true;
                         if (clockwise == false)
                         {
                             round = 2;
                         }
                         else round = 0;
+
                     }
-                    else if(ai1CardType[i] == 5)
-                    {
-                        round = 3;
-                    }
-                    AIPlaceCard(1, i);
-                }
-                else
-                {
-                    GetCard(1);
-                    nextOne = true;
-                    if (clockwise == false)
-                    {
-                        round = 2;
-                    }
-                    else round = 0;
-                    
                 }
             }
         }
@@ -491,44 +506,47 @@ public class PlayerState : MonoBehaviour
     {
         if (round == 2)
         {
-            if (nextOne == true)
+            if (ai2Life > 0)
             {
-                roundTime = 20;
-                nextOne = false;
-            }
-            if (roundTime < 18)
-            {
-                int i = 0;
-                while (ai2CardColor[i] != lastCard[0] && (ai2CardNum[i] != lastCard[1] && ai2CardNum[i] == (-2)) && (ai2CardType[i] != lastCard[2] && (ai2CardType[i] != 4 || ai2CardType[i] != 5)) && i < 19)
+                if (nextOne == true)
                 {
-                    i++;
+                    roundTime = 20;
+                    nextOne = false;
                 }
-                if (ai2CardColor[i] == lastCard[0] || (ai2CardNum[i] == lastCard[1] && ai2CardNum[i] != (-2)) || (ai2CardType[i] == lastCard[2] && (ai2CardType[i] == 4 || ai2CardType[i] == 5)))
+                if (roundTime < 18)
                 {
-                    nextOne = true;
-                    if (ai2CardType[i] != 5)
+                    int i = 0;
+                    while (ai2CardColor[i] != lastCard[0] && (ai2CardNum[i] != lastCard[1] && ai2CardNum[i] == (-2)) && (ai2CardType[i] != lastCard[2] && (ai2CardType[i] != 4 || ai2CardType[i] != 5)) && i < 19)
                     {
+                        i++;
+                    }
+                    if (ai2CardColor[i] == lastCard[0] || (ai2CardNum[i] == lastCard[1] && ai2CardNum[i] != (-2)) || (ai2CardType[i] == lastCard[2] && (ai2CardType[i] == 4 || ai2CardType[i] == 5)))
+                    {
+                        nextOne = true;
+                        if (ai2CardType[i] != 5)
+                        {
+                            if (clockwise == false)
+                            {
+                                round = 3;
+                            }
+                            else round = 1;
+                        }
+                        else if (ai2CardType[i] == 5)
+                        {
+                            round = 0;
+                        }
+                        AIPlaceCard(2, i);
+                    }
+                    else
+                    {
+                        GetCard(2);
+                        nextOne = true;
                         if (clockwise == false)
                         {
                             round = 3;
                         }
                         else round = 1;
                     }
-                    else if (ai2CardType[i] == 5)
-                    {
-                        round = 0;
-                    }
-                    AIPlaceCard(2, i);
-                }
-                else
-                {
-                    GetCard(2);
-                    nextOne = true;
-                    if (clockwise == false)
-                    {
-                        round = 3;
-                    }
-                    else round = 1;
                 }
             }
         }
@@ -538,44 +556,47 @@ public class PlayerState : MonoBehaviour
     {
         if (round == 3)
         {
-            if (nextOne == true)
+            if (ai3Life > 0)
             {
-                roundTime = 20;
-                nextOne = false;
-            }
-            if (roundTime < 18)
-            {
-                int i = 0;
-                while (ai3CardColor[i] != lastCard[0] && (ai3CardNum[i] != lastCard[1] && ai3CardNum[i] == (-2)) && (ai3CardType[i] != lastCard[2] && (ai3CardType[i] != 4 || ai3CardType[i] != 5)) && i < 19)
+                if (nextOne == true)
                 {
-                    i++;
+                    roundTime = 20;
+                    nextOne = false;
                 }
-                if (ai3CardColor[i] == lastCard[0] || (ai3CardNum[i] == lastCard[1] && ai3CardNum[i] != (-2)) || (ai3CardType[i] == lastCard[2] && (ai3CardType[i] == 4 || ai3CardType[i] == 5)))
+                if (roundTime < 18)
                 {
-                    nextOne = true;
-                    if (ai3CardType[i] != 5)
+                    int i = 0;
+                    while (ai3CardColor[i] != lastCard[0] && (ai3CardNum[i] != lastCard[1] && ai3CardNum[i] == (-2)) && (ai3CardType[i] != lastCard[2] && (ai3CardType[i] != 4 || ai3CardType[i] != 5)) && i < 19)
                     {
+                        i++;
+                    }
+                    if (ai3CardColor[i] == lastCard[0] || (ai3CardNum[i] == lastCard[1] && ai3CardNum[i] != (-2)) || (ai3CardType[i] == lastCard[2] && (ai3CardType[i] == 4 || ai3CardType[i] == 5)))
+                    {
+                        nextOne = true;
+                        if (ai3CardType[i] != 5)
+                        {
+                            if (clockwise == false)
+                            {
+                                round = 0;
+                            }
+                            else round = 2;
+                        }
+                        else if (ai3CardType[i] == 5)
+                        {
+                            round = 1;
+                        }
+                        AIPlaceCard(3, i);
+                    }
+                    else
+                    {
+                        GetCard(3);
+                        nextOne = true;
                         if (clockwise == false)
                         {
                             round = 0;
                         }
                         else round = 2;
                     }
-                    else if (ai3CardType[i] == 5)
-                    {
-                        round = 1;
-                    }
-                    AIPlaceCard(3, i);
-                }
-                else
-                {
-                    GetCard(3);
-                    nextOne = true;
-                    if (clockwise == false)
-                    {
-                        round = 0;
-                    }
-                    else round = 2;
                 }
             }
         }
@@ -5528,6 +5549,16 @@ public class PlayerState : MonoBehaviour
         nextP1SpawnPoint = p1SpawnPoint.position;
         nextP1SpawnPoint.x = p1SpawnPoint.position.x + position;
         GameObject clone = Instantiate(card, nextP1SpawnPoint, p1SpawnPoint.rotation);
+    }
+    public void Win()
+    {
+        Time.timeScale = 0;
+        win.SetActive(true);
+    }
+    public void Lose()
+    {
+        Time.timeScale = 0;
+        lose.SetActive(true);
     }
 }
 
