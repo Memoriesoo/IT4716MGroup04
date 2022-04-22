@@ -232,11 +232,12 @@ public class PlayerState : MonoBehaviour
     }
     private void Update()
     {
-        if(ai1Life <= 0 && ai2Life <= 0 && ai3Life <= 00)
+        fill();
+        if (ai1Life <= 0 && ai2Life <= 0 && ai3Life <= 00)
         {
             Win();
         }
-        if(playerLife <= 0 || ((mins <= 0 && sec <= 0) && (playerLife <= ai1Life || playerLife <= ai2Life || playerLife <= ai3Life)))
+        if (playerLife <= 0 || ((mins <= 0 && sec <= 0) && (playerLife <= ai1Life || playerLife <= ai2Life || playerLife <= ai3Life)))
         {
             Lose();
         }
@@ -260,6 +261,7 @@ public class PlayerState : MonoBehaviour
         }
         sec -= Time.deltaTime;
 
+
         roundTimer.text = Mathf.Ceil(roundTime).ToString();
         roundTime -= Time.deltaTime;
         roundTimeSlider.value = roundTime;
@@ -268,31 +270,47 @@ public class PlayerState : MonoBehaviour
         ai1CounterText.text = "Card Left: " + ai1CardAmount.ToString() + " " + "Life: " + ai1Life.ToString();
         ai2CounterText.text = "Card Left: " + ai2CardAmount.ToString() + " " + "Life: " + ai2Life.ToString();
         ai3CounterText.text = "Card Left: " + ai3CardAmount.ToString() + " " + "Life: " + ai3Life.ToString();
-        currentRoundText.text = "Round: P" + (round+1).ToString();
+        currentRoundText.text = "Round: P" + (round + 1).ToString();
 
         Player();
         AI1();
         AI2();
         AI3();
 
-        if(ai1Life <0)
-        {
-            ai1Life = 0;
-        }
-        if (ai2Life < 0)
-        {
-            ai2Life = 0;
-        }
-        if (ai3Life < 0)
-        {
-            ai3Life = 0;
-        }
-        if (playerLife < 0)
-        {
-            playerLife = 0;
-        }
+        
     }
 
+    public void fill()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            int cp = 0;
+            while (p1CardColor[cp] != -1)
+            {
+                cp++;
+            }
+            if (p1CardColor[cp] == -1 && p1CardColor[cp + 1] != -1)
+            {
+                GameObject[] choose;
+                choose = GameObject.FindGameObjectsWithTag("Card");
+                foreach (GameObject choosed in choose)
+                {
+                    if (choosed.transform.position.x == cp - 7)
+                    {
+                        Vector3 pos = choosed.transform.position;
+                        pos.x = cp - 8;
+                        p1CardColor[cp] = p1CardColor[cp + 1];
+                        p1CardNum[cp] = p1CardNum[cp + 1];
+                        p1CardType[cp] = p1CardType[cp + 1];
+                        p1CardColor[cp + 1] = -1;
+                        p1CardNum[cp + 1] = -1;
+                        p1CardType[cp + 1] = -1;
+                        choosed.transform.position = pos;
+                    }
+                }
+            }
+        }
+    }
     public void Player()
     {
         if (round == 0)
@@ -332,12 +350,10 @@ public class PlayerState : MonoBehaviour
                                     if (clockwise == false)
                                     {
                                         round = 3;
-                                        clockwise = true;
                                     }
                                     else
                                     {
                                         round = 1;
-                                        clockwise = false;
                                     }
                                 }
                                 else
@@ -364,92 +380,19 @@ public class PlayerState : MonoBehaviour
                     }
                 }
             }
-            if (roundTime < 0)
+            if(roundTime <= 0)
             {
-                int i = 0;
-                while (p1CardColor[i] != lastCard[0] && (p1CardNum[i] != lastCard[1] && p1CardNum[i] == (-2)) && (p1CardType[i] != lastCard[2] && (p1CardType[i] != 4 || p1CardType[i] != 5)) && i < 19)
+                //playerLife -= 2;
+                GetCard(0);
+                if (clockwise == false)
                 {
-                    i++;
+                    round = 1;
                 }
-                if (p1CardColor[i] == lastCard[0] || (p1CardNum[i] == lastCard[1] && p1CardNum[i] != (-2)) || (p1CardType[i] == lastCard[2] && (p1CardType[i] == 4 || p1CardType[i] == 5)))
-                {
-                    if (p1CardType[i] != 2)
-                    {
-                        Vector3 cp = p1SpawnPoint.position;
-                        cp.x = i - 8;
-                        playerCardAmount -= 1;
-                        nextOne = true;
-                        GameObject[] AIchoose;
-                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
-                        roundTimeSlider.gameObject.SetActive(false);
-                        foreach (GameObject choosed in AIchoose)
-                        {
-                            if (choosed.transform.position == cp)
-                            {
-                                Destroy(choosed);
-                            }
-                        }
-                        if (p1CardType[i] == 5)
-                        {
-                            round = 2;
-                        }
-                        else if (p1CardType[i] == 4)
-                        {
-                            if (clockwise == false)
-                            {
-                                round = 3;
-                                clockwise = true;
-                            }
-                            else
-                            {
-                                round = 1;
-                                clockwise = false;
-                            }
-                        }
-                        else
-                        {
-                            if (clockwise == false)
-                            {
-                                GetCard(0);
-                                nextOne = true;
-                                round = 1;
-                            }
-                            else
-                            {
-                                GetCard(0);
-                                nextOne = true;
-                                round = 3;
-                            }
-                        }
-                        PlaceCard(cp);
-                    }
-                    else
-                    {
-                        Vector3 cp = p1SpawnPoint.position;
-                        cp.x = i - 8;
-                        attackCardPosition = cp;
-                        attackValue = p1CardNum[i];
-                        AIAttack(0, i);
-                        playerCardAmount -= 1;
-                        nextOne = true;
-                        GameObject[] AIchoose;
-                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
-                        foreach (GameObject choosed in AIchoose)
-                        {
-                            if (choosed.transform.position == cp)
-                            {
-                                Destroy(choosed);
-                            }
-                        }
-                        if (clockwise == false)
-                        {
-                            round = 1;
-                        }
-                        else round = 3;
-                    }
-                }
+                else
+                    round = 3;
             }
         }
+
     }
     public void AI1()
     {
@@ -499,6 +442,11 @@ public class PlayerState : MonoBehaviour
                     }
                 }
             }
+            else if (clockwise == false)
+            {
+                round = 2;
+            }
+            else round = 0;
         }
     }
 
@@ -549,6 +497,11 @@ public class PlayerState : MonoBehaviour
                     }
                 }
             }
+            else if (clockwise == false)
+            {
+                round = 3;
+            }
+            else round = 1;
         }
     }
 
@@ -599,6 +552,11 @@ public class PlayerState : MonoBehaviour
                     }
                 }
             }
+            else if (clockwise == false)
+            {
+                round = 0;
+            }
+            else round = 2;
         }
     }
     public void StartCard()
@@ -1056,7 +1014,6 @@ public class PlayerState : MonoBehaviour
                 }
                 else
                 {
-                    ai1CardAmount += 2;
                     ai1Life -= 2;
                     RandomChangeCard(1);
                 }
@@ -1071,7 +1028,6 @@ public class PlayerState : MonoBehaviour
                 }
                 else
                 {
-                    ai2CardAmount += 2;
                     ai2Life -= 2;
                     RandomChangeCard(2);
                 }
@@ -1086,7 +1042,6 @@ public class PlayerState : MonoBehaviour
                 }
                 else
                 {
-                    ai3CardAmount += 2;
                     ai3Life -= 2;
                     RandomChangeCard(3);
                 }
@@ -5550,6 +5505,8 @@ public class PlayerState : MonoBehaviour
         nextP1SpawnPoint.x = p1SpawnPoint.position.x + position;
         GameObject clone = Instantiate(card, nextP1SpawnPoint, p1SpawnPoint.rotation);
     }
+
+    
     public void Win()
     {
         Time.timeScale = 0;
