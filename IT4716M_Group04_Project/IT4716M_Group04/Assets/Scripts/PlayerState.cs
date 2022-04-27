@@ -160,7 +160,10 @@ public class PlayerState : MonoBehaviour
     public GameObject Ai1Ui;
     public GameObject Ai2Ui;
     public GameObject Ai3Ui;
+    public GameObject PlayerUi;
     public GameObject hitanimation;
+
+    bool hitAnimation = false;
 
     Text roundTimer;
     Text timer;
@@ -185,9 +188,10 @@ public class PlayerState : MonoBehaviour
     int mins = 9;
     float sec = 60;
     float roundTime = 20;
+    float animationTime = 2;
 
     int playerCardAmount = 10;
-    int playerLife = 50;
+    int playerLife = 1;
     int ai1CardAmount = 10;
     int ai1Life = 50;
     int ai2CardAmount = 10;
@@ -237,8 +241,19 @@ public class PlayerState : MonoBehaviour
     }
     private void Update()
     {
+        if(hitAnimation==true)
+        {
+            hitanimation.SetActive(true);
+            animationTime -= Time.deltaTime;
+            if(animationTime <= 0)
+            {
+                hitanimation.SetActive(false);
+                hitAnimation = false;
+                animationTime = 1;
+            }
+        }
         fill();
-        if (ai1Life <= 0 && ai2Life <= 0 && ai3Life <= 00)
+        if (ai1Life <= 0 && ai2Life <= 0 && ai3Life <= 0)
         {
             Win();
         }
@@ -290,7 +305,7 @@ public class PlayerState : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             int cp = 0;
-            while (p1CardColor[cp] != -1)
+            while (p1CardColor[cp] != -1 && cp < 18)
             {
                 cp++;
             }
@@ -403,6 +418,7 @@ public class PlayerState : MonoBehaviour
     }
     public void AI1()
     {
+        if (ai1Life <= 0) ai1Life = 0;
         if (round == 1)
         {
             if (ai1Life > 0)
@@ -459,6 +475,7 @@ public class PlayerState : MonoBehaviour
 
     public void AI2()
     {
+        if (ai2Life <= 0) ai2Life = 0;
         if (round == 2)
         {
             if (ai2Life > 0)
@@ -514,6 +531,7 @@ public class PlayerState : MonoBehaviour
 
     public void AI3()
     {
+        if (ai3Life <= 0) ai3Life = 0;
         if (round == 3) 
         {
             if (ai3Life > 0)
@@ -802,14 +820,14 @@ public class PlayerState : MonoBehaviour
 
     public void Attack(int attacktarget)
     {
-        hitanimation.SetActive(true);
+        hitAnimation = true;
         Vector3 cp = attackCardPosition;
         switch (attacktarget)
         {
             case 1:
                 if(ai1Life > 0)
                 {
-                    
+                    hitanimation.transform.position = Ai1Ui.transform.position;
                     choosingTarget = false;
                     ai1Life -= attackValue;
                     PlaceCard(attackCardPosition);
@@ -838,6 +856,7 @@ public class PlayerState : MonoBehaviour
             case 2:
                 if (ai2Life > 0)
                 {
+                    hitanimation.transform.position = Ai2Ui.transform.position;
                     choosingTarget = false;
                     ai2Life -= attackValue;
                     PlaceCard(attackCardPosition);
@@ -865,6 +884,7 @@ public class PlayerState : MonoBehaviour
             case 3:
                 if (ai3Life > 0)
                 {
+                    hitanimation.transform.position = Ai3Ui.transform.position;
                     choosingTarget = false;
                     ai3Life -= attackValue;
                     PlaceCard(attackCardPosition);
@@ -900,14 +920,18 @@ public class PlayerState : MonoBehaviour
             case 0:
                 if (ai1Life > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai1Ui.transform.position;
                     ai1Life -= attackValue;
                     PlaceCard(attackCardPosition);
                     roundTimeSlider.gameObject.SetActive(false);
                     getCardButton.gameObject.SetActive(false);
                     targetMenu.SetActive(false);
                 }
-                else if (ai2Life>0)
+                else if (ai2Life > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai2Ui.transform.position;
                     ai2Life -= attackValue;
                     PlaceCard(attackCardPosition);
                     roundTimeSlider.gameObject.SetActive(false);
@@ -916,6 +940,8 @@ public class PlayerState : MonoBehaviour
                 }
                 else
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai3Ui.transform.position;
                     ai3Life -= attackValue;
                     PlaceCard(attackCardPosition);
                     roundTimeSlider.gameObject.SetActive(false);
@@ -926,42 +952,60 @@ public class PlayerState : MonoBehaviour
             case 1:
                 if (ai2Life > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai2Ui.transform.position;
                     ai2Life -= attackValue;
                 }
                 else if (ai3Life > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai3Ui.transform.position;
                     ai3Life -= attackValue;
                 }
                 else
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = PlayerUi.transform.position;
                     playerLife -= attackValue;
                 }
                 break;
             case 2:
                 if (ai3Life > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai3Ui.transform.position;
                     ai3Life -= attackValue;
                 }
                 else if (playerLife > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = PlayerUi.transform.position;
                     playerLife -= attackValue;
                 }
                 else
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai1Ui.transform.position;
                     ai1Life -= attackValue;
                 }
                 break;
             case 3:
                 if (playerLife > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = PlayerUi.transform.position;
                     playerLife -= attackValue;
                 }
                 else if (ai1Life > 0)
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai1Ui.transform.position;
                     ai1Life -= attackValue;
                 }
                 else
                 {
+                    hitAnimation = true;
+                    hitanimation.transform.position = Ai2Ui.transform.position;
                     ai2Life -= attackValue;
                 }
                 break;
