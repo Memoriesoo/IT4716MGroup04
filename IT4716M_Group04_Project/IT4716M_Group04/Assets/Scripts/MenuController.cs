@@ -35,7 +35,6 @@ public class MenuController : MonoBehaviour
 	{
 		Time.timeScale = 0;
 		settingMenu.SetActive(true);
-		mainMenu.SetActive(false);
 	}
 	public void CloseMenu()
     {
