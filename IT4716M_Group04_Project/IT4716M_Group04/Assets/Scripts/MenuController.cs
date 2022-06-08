@@ -10,6 +10,8 @@ public class MenuController : MonoBehaviour
 	public GameObject settingMenu;
 	public Slider soundSlider;
 	public AudioSource bgm;
+	public GameObject levelMenu;
+
 	AudioSource clickSound;
 	private void Start()
     {
@@ -63,5 +65,9 @@ public class MenuController : MonoBehaviour
 	public void QuitGame()
     {
 		Application.Quit();
+    }
+	public void Selectlevel()
+    {
+		levelMenu.SetActive(true);
     }
 }

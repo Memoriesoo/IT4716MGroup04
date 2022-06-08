@@ -78,7 +78,10 @@ public class PlayerState : MonoBehaviour
     public GameObject healgreen7;
     public GameObject healgreen8;
     public GameObject healgreen9;
-    public GameObject healanimation;
+    public GameObject playerhealanimation;
+    public GameObject ai1healanimation;
+    public GameObject ai2healanimation;
+    public GameObject ai3healanimation;
 
     public GameObject reverseyellow;
     public GameObject reverseblue;
@@ -136,7 +139,7 @@ public class PlayerState : MonoBehaviour
     public Button getCardButton;
     public GameObject targetMenu;
     public GameObject currentRound;
-
+    public bool SpecialMode = false;
     private int round = 0;
 
     public GameObject playerCounter;
@@ -157,11 +160,15 @@ public class PlayerState : MonoBehaviour
 
     public Slider soundVolumeSlider;
 
-    public GameObject Ai1Ui;
-    public GameObject Ai2Ui;
-    public GameObject Ai3Ui;
+    public Image Ai1Ui;
+    public Image Ai2Ui;
+    public Image Ai3Ui;
     public GameObject PlayerUi;
     public GameObject hitanimation;
+
+    public GameObject blockMenu;
+    public GameObject reverseMenu;
+    public GameObject blockOrReverseMenu;
 
     bool hitAnimation = false;
 
@@ -185,19 +192,20 @@ public class PlayerState : MonoBehaviour
 
     int healValue = 0;
     int attackValue = 0;
-    int mins = 9;
+    public int mins = 9;
     float sec = 60;
     float roundTime = 20;
     float animationTime = 2;
+    int lastattacker = 0;
 
     int playerCardAmount = 10;
-    int playerLife = 1;
+    public int playerLife = 50;
     int ai1CardAmount = 10;
-    int ai1Life = 50;
+    public int ai1Life = 50;
     int ai2CardAmount = 10;
-    int ai2Life = 50;
+    public int ai2Life = 50;
     int ai3CardAmount = 10;
-    int ai3Life = 50;
+    public int ai3Life = 50;
 
     int[] p1CardColor = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     int[] p1CardNum = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -337,7 +345,7 @@ public class PlayerState : MonoBehaviour
         {
             getCardButton.gameObject.SetActive(true);
             roundTimeSlider.gameObject.SetActive(true);
-            healanimation.SetActive(false);
+            playerhealanimation.SetActive(false);
             hitanimation.SetActive(false);
             if (nextOne == true)
             {
@@ -418,11 +426,16 @@ public class PlayerState : MonoBehaviour
     }
     public void AI1()
     {
-        if (ai1Life <= 0) ai1Life = 0;
+        if (ai1Life <= 0)
+        {
+            Ai1Ui.color = Color.grey;
+            ai1Life = 0;
+        }
         if (round == 1)
         {
             if (ai1Life > 0)
             {
+                ai1healanimation.SetActive(false);
                 if (nextOne == true)
                 {
                     roundTime = 20;
@@ -475,11 +488,16 @@ public class PlayerState : MonoBehaviour
 
     public void AI2()
     {
-        if (ai2Life <= 0) ai2Life = 0;
+        if (ai2Life <= 0)
+        {
+            Ai2Ui.color = Color.grey;
+            ai2Life = 0;
+        }
         if (round == 2)
         {
             if (ai2Life > 0)
             {
+                ai2healanimation.SetActive(false);
                 if (nextOne == true)
                 {
                     roundTime = 20;
@@ -531,11 +549,16 @@ public class PlayerState : MonoBehaviour
 
     public void AI3()
     {
-        if (ai3Life <= 0) ai3Life = 0;
+        if (ai3Life <= 0)
+        {
+            Ai3Ui.color = Color.grey;
+            ai3Life = 0;
+        }
         if (round == 3) 
         {
             if (ai3Life > 0)
             {
+                ai3healanimation.SetActive(false);
                 if (nextOne == true)
                 {
                     roundTime = 20;
@@ -827,22 +850,82 @@ public class PlayerState : MonoBehaviour
             case 1:
                 if(ai1Life > 0)
                 {
-                    hitanimation.transform.position = Ai1Ui.transform.position;
-                    choosingTarget = false;
-                    ai1Life -= attackValue;
-                    PlaceCard(attackCardPosition);
-                    targetMenu.SetActive(false);
-                    playerCardAmount -= 1;
-                    nextOne = true;
-                    roundTimeSlider.gameObject.SetActive(false);
-                    getCardButton.gameObject.SetActive(false);
-                    GameObject[] AIchoose;
-                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
-                    foreach (GameObject choosed in AIchoose)
+                    if (SpecialMode == true)
                     {
-                        if (choosed.transform.position == cp)
+                        bool back = false;
+                        int i = 0;
+                        if (back == false)
                         {
-                            Destroy(choosed);
+                            while (ai1CardType[i] != 4 & i < 19)
+                                i++;
+                            while (ai1CardType[i] == 4)
+                            {
+                                ai1CardAmount -= 1;
+                                ai1CardColor[i] = -1;
+                                ai1CardNum[i] = -1;
+                                ai1CardType[i] = -1;
+                                //reversedamageanimation.transform.position = Ai1Ui.transform.position;
+                                hitanimation.transform.position = PlayerUi.transform.position;
+                                playerLife -= attackValue;
+                                back = true;
+                            }
+                        }
+                        i = 0;
+                        if (back == false)
+                        {
+                            while (ai1CardType[i] != 5 & i < 19)
+                                i++;
+                            while (ai1CardType[i] == 5)
+                            {
+                                ai1CardAmount -= 1;
+                                ai1CardColor[i] = -1;
+                                ai1CardNum[i] = -1;
+                                ai1CardType[i] = -1;
+                                //blockdamageanimation.transform.position = Ai1Ui.transform.position;
+                                back = true;
+                            }
+                        }
+                        if(back==false)
+                        {
+                            ai1Life -= attackValue;
+                            hitanimation.transform.position = Ai1Ui.transform.position;
+                        }
+                        choosingTarget = false;
+                        PlaceCard(attackCardPosition);
+                        targetMenu.SetActive(false);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        hitanimation.transform.position = Ai1Ui.transform.position;
+                        choosingTarget = false;
+                        ai1Life -= attackValue;
+                        PlaceCard(attackCardPosition);
+                        targetMenu.SetActive(false);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
                         }
                     }
                     if (clockwise == false)
@@ -850,56 +933,175 @@ public class PlayerState : MonoBehaviour
                         round = 1;
                     }
                     else round = 3;
-
                 }
                 break;
             case 2:
                 if (ai2Life > 0)
                 {
-                    hitanimation.transform.position = Ai2Ui.transform.position;
-                    choosingTarget = false;
-                    ai2Life -= attackValue;
-                    PlaceCard(attackCardPosition);
-                    targetMenu.SetActive(false);
-                    playerCardAmount -= 1;
-                    nextOne = true;
-                    roundTimeSlider.gameObject.SetActive(false);
-                    getCardButton.gameObject.SetActive(false);
-                    GameObject[] AIchoose;
-                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
-                    foreach (GameObject choosed in AIchoose)
+                    if (SpecialMode == true)
                     {
-                        if (choosed.transform.position == cp)
+                        bool back = false;
+                        int i = 0;
+                        if (back == false)
                         {
-                            Destroy(choosed);
+                            while (ai2CardType[i] != 4 & i < 19)
+                                i++;
+                            while (ai2CardType[i] == 4)
+                            {
+                                ai2CardAmount -= 1;
+                                ai2CardColor[i] = -1;
+                                ai2CardNum[i] = -1;
+                                ai2CardType[i] = -1;
+                                //reversedamageanimation.transform.position = Ai2Ui.transform.position;
+                                hitanimation.transform.position = PlayerUi.transform.position;
+                                playerLife -= attackValue;
+                                back = true;
+                            }
+                        }
+                        i = 0;
+                        if (back == false)
+                        {
+                            while (ai2CardType[i] != 5 & i < 19)
+                                i++;
+                            while (ai2CardType[i] == 5)
+                            {
+                                ai2CardAmount -= 1;
+                                ai2CardColor[i] = -1;
+                                ai2CardNum[i] = -1;
+                                ai2CardType[i] = -1;
+                                //blockdamageanimation.transform.position = Ai2Ui.transform.position;
+                                back = true;
+                            }
+                        }
+                        if (back == false)
+                        {
+                            ai2Life -= attackValue;
+                            hitanimation.transform.position = Ai2Ui.transform.position;
+                        }
+                        choosingTarget = false;
+                        PlaceCard(attackCardPosition);
+                        targetMenu.SetActive(false);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
                         }
                     }
-                    if (clockwise == false)
+                    else
                     {
-                        round = 1;
+                        hitanimation.transform.position = Ai2Ui.transform.position;
+                        choosingTarget = false;
+                        ai2Life -= attackValue;
+                        PlaceCard(attackCardPosition);
+                        targetMenu.SetActive(false);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
+                        }
                     }
-                    else round = 3;
-                }
-                break;
+                        if (clockwise == false)
+                        {
+                            round = 1;
+                        }
+                        else round = 3;
+                    }
+                    break;
             case 3:
                 if (ai3Life > 0)
                 {
-                    hitanimation.transform.position = Ai3Ui.transform.position;
-                    choosingTarget = false;
-                    ai3Life -= attackValue;
-                    PlaceCard(attackCardPosition);
-                    targetMenu.SetActive(false);
-                    playerCardAmount -= 1;
-                    nextOne = true;
-                    roundTimeSlider.gameObject.SetActive(false);
-                    getCardButton.gameObject.SetActive(false);
-                    GameObject[] AIchoose;
-                    AIchoose = GameObject.FindGameObjectsWithTag("Card");
-                    foreach (GameObject choosed in AIchoose)
+                    if (SpecialMode == true)
                     {
-                        if (choosed.transform.position == cp)
+                        bool back = false;
+                        int i = 0;
+                        if (back == false)
                         {
-                            Destroy(choosed);
+                            while (ai3CardType[i] != 4 & i < 19)
+                                i++;
+                            while (ai3CardType[i] == 4)
+                            {
+                                ai3CardAmount -= 1;
+                                ai3CardColor[i] = -1;
+                                ai3CardNum[i] = -1;
+                                ai3CardType[i] = -1;
+                                //reversedamageanimation.transform.position = Ai3Ui.transform.position;
+                                hitanimation.transform.position = PlayerUi.transform.position;
+                                playerLife -= attackValue;
+                                back = true;
+                            }
+                        }
+                        i = 0;
+                        if (back == false)
+                        {
+                            while (ai3CardType[i] != 5 & i < 19)
+                                i++;
+                            while (ai3CardType[i] == 5)
+                            {
+                                ai3CardAmount -= 1;
+                                ai3CardColor[i] = -1;
+                                ai3CardNum[i] = -1;
+                                ai3CardType[i] = -1;
+                                //blockdamageanimation.transform.position = Ai3Ui.transform.position;
+                                back = true;
+                            }
+                        }
+                        if (back == false)
+                        {
+                            ai3Life -= attackValue;
+                            hitanimation.transform.position = Ai3Ui.transform.position;
+                        }
+                        choosingTarget = false;
+                        PlaceCard(attackCardPosition);
+                        targetMenu.SetActive(false);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        hitanimation.transform.position = Ai3Ui.transform.position;
+                        choosingTarget = false;
+                        ai3Life -= attackValue;
+                        PlaceCard(attackCardPosition);
+                        targetMenu.SetActive(false);
+                        playerCardAmount -= 1;
+                        nextOne = true;
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        GameObject[] AIchoose;
+                        AIchoose = GameObject.FindGameObjectsWithTag("Card");
+                        foreach (GameObject choosed in AIchoose)
+                        {
+                            if (choosed.transform.position == cp)
+                            {
+                                Destroy(choosed);
+                            }
                         }
                     }
                     if (clockwise == false)
@@ -911,108 +1113,517 @@ public class PlayerState : MonoBehaviour
                 break;
         }
         attack.Play();
+        //reversedamage.Play();
+        //blockdamage.Play();
     }
 
-    public void AIAttack(int target, int position)
+    public void ReverseDamage()
     {
+        int i = 0;
+        blockMenu.SetActive(false);
+        reverseMenu.SetActive(false);
+        blockOrReverseMenu.SetActive(false);
+        while (p1CardType[i] != 4 & i < 19)
+            i++;
+        while (p1CardType[i] == 4)
+        {
+            hitAnimation = true;
+            playerCardAmount -= 1;
+            p1CardColor[i] = -1;
+            p1CardNum[i] = -1;
+            p1CardType[i] = -1;
+            switch (lastattacker)
+            {
+                case 1:
+                    hitanimation.transform.position = Ai1Ui.transform.position;
+                    ai1Life -= attackValue;
+                    break;
+                case 2:
+                    hitanimation.transform.position = Ai2Ui.transform.position;
+                    ai2Life -= attackValue;
+                    break;
+                case 3:
+                    hitanimation.transform.position = Ai3Ui.transform.position;
+                    ai3Life -= attackValue;
+                    break;
+            }
+        }
+        Time.timeScale = 1;
+        //reversedamageanimation.transform.position = PlayerUi.transform.position;
+    }
+    public void BlockDamage()
+    {
+        int i = 0;
+        blockMenu.SetActive(false);
+        reverseMenu.SetActive(false);
+        blockOrReverseMenu.SetActive(false);
+        while (p1CardType[i] != 5 & i < 19)
+            i++;
+        while (p1CardType[i] == 5)
+        {
+            playerCardAmount -= 1;
+            p1CardColor[i] = -1;
+            p1CardNum[i] = -1;
+            p1CardType[i] = -1;
+        }
+        Time.timeScale = 1;
+        //blockdamageanimation.transform.position = PlayerUi.transform.position;
+    }
+    public void NothingToDo()
+    {
+        blockMenu.SetActive(false);
+        reverseMenu.SetActive(false);
+        blockOrReverseMenu.SetActive(false);
+        playerLife -= attackValue;
+        hitAnimation = true;
+        hitanimation.transform.position = PlayerUi.transform.position;
+        Time.timeScale = 1;
+    }
+    public void SearchBackDamage(int target, int attacker)
+    {
+        bool back = false;
+        int i = 0;
         switch (target)
         {
             case 0:
-                if (ai1Life > 0)
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai1Ui.transform.position;
-                    ai1Life -= attackValue;
-                    PlaceCard(attackCardPosition);
-                    roundTimeSlider.gameObject.SetActive(false);
-                    getCardButton.gameObject.SetActive(false);
-                    targetMenu.SetActive(false);
+                    bool re = false;
+                    bool bl = false;
+                    switch (attacker)
+                    {
+                        case 1:
+                            lastattacker = 1;
+                            break;
+                        case 2:
+                            lastattacker = 2;
+                            break;
+                        case 3:
+                            lastattacker = 3;
+                            break;
+                    }
+                    while (p1CardType[i] != 4 & i < 19)
+                        i++;
+                    while (p1CardType[i] == 4)
+                    {
+                        re = true;
+                    }
+                    while (p1CardType[i] != 5 & i < 19)
+                        i++;
+                    while (p1CardType[i] == 5)
+                    {
+                        bl = true;
+                    }
+                    if (re==true & bl==true)
+                    {
+                        blockOrReverseMenu.SetActive(true);
+                        back = true;
+                        Time.timeScale = 0;
+                    }
                 }
-                else if (ai2Life > 0)
-                {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai2Ui.transform.position;
-                    ai2Life -= attackValue;
-                    PlaceCard(attackCardPosition);
-                    roundTimeSlider.gameObject.SetActive(false);
-                    getCardButton.gameObject.SetActive(false);
-                    targetMenu.SetActive(false);
+                i = 0;
+                if (back == false)
+                { 
+                    switch (attacker)
+                    {
+                        case 1:
+                            lastattacker = 1;
+                            break;
+                        case 2:
+                            lastattacker = 2;
+                            break;
+                        case 3:
+                            lastattacker = 3;
+                            break;
+                    }
+                    while (p1CardType[i] != 4 & i < 19)
+                        i++;
+                    while (p1CardType[i] == 4)
+                    {
+                        reverseMenu.SetActive(true);
+                        back = true;
+                        Time.timeScale = 0;
+                    }
                 }
-                else
+                i = 0;
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai3Ui.transform.position;
-                    ai3Life -= attackValue;
-                    PlaceCard(attackCardPosition);
-                    roundTimeSlider.gameObject.SetActive(false);
-                    getCardButton.gameObject.SetActive(false);
-                    targetMenu.SetActive(false);
+                    switch (attacker)
+                    {
+                        case 1:
+                            lastattacker = 1;
+                            break;
+                        case 2:
+                            lastattacker = 2;
+                            break;
+                        case 3:
+                            lastattacker = 3;
+                            break;
+                    }
+                    while (p1CardType[i] != 5 & i < 19)
+                        i++;
+                    while (p1CardType[i] == 5)
+                    {
+                        blockMenu.SetActive(true);
+                        back = true;
+                        Time.timeScale = 0;
+                    }
+                }
+                if (back == false)
+                {
+                    playerLife -= attackValue;
+                    hitanimation.transform.position = PlayerUi.transform.position;
                 }
                 break;
             case 1:
-                if (ai2Life > 0)
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai2Ui.transform.position;
-                    ai2Life -= attackValue;
+                    while (ai1CardType[i] != 4 & i < 19)
+                        i++;
+                    while (ai1CardType[i] == 4)
+                    {
+                        hitAnimation = true;
+                        ai1CardAmount -= 1;
+                        ai1CardColor[i] = -1;
+                        ai1CardNum[i] = -1;
+                        ai1CardType[i] = -1;
+                        //reversedamageanimation.transform.position = Ai1Ui.transform.position;
+                        switch (attacker)
+                        {
+                            case 0:
+                                hitanimation.transform.position = PlayerUi.transform.position;
+                                playerLife -= attackValue;
+                                break;
+                            case 1:
+                                hitanimation.transform.position = Ai1Ui.transform.position;
+                                ai1Life -= attackValue;
+                                break;
+                            case 2:
+                                hitanimation.transform.position = Ai2Ui.transform.position;
+                                ai2Life -= attackValue;
+                                break;
+                            case 3:
+                                hitanimation.transform.position = Ai3Ui.transform.position;
+                                ai3Life -= attackValue;
+                                break;
+                        }
+                        back = true;
+                    }
                 }
-                else if (ai3Life > 0)
+                i = 0;
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai3Ui.transform.position;
-                    ai3Life -= attackValue;
+                    while (ai1CardType[i] != 5 & i < 19)
+                        i++;
+                    while (ai1CardType[i] == 5)
+                    {
+                        ai1CardAmount -= 1;
+                        ai1CardColor[i] = -1;
+                        ai1CardNum[i] = -1;
+                        ai1CardType[i] = -1;
+                        //blockdamageanimation.transform.position = Ai1Ui.transform.position;
+                        back = true;
+                    }
                 }
-                else
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = PlayerUi.transform.position;
-                    playerLife -= attackValue;
+                    ai1Life -= attackValue;
+                    hitanimation.transform.position = Ai1Ui.transform.position;
                 }
                 break;
             case 2:
-                if (ai3Life > 0)
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai3Ui.transform.position;
-                    ai3Life -= attackValue;
+                    while (ai2CardType[i] != 4 & i < 19)
+                        i++;
+                    while (ai2CardType[i] == 4)
+                    {
+                        hitAnimation = true;
+                        ai2CardAmount -= 1;
+                        ai2CardColor[i] = -1;
+                        ai2CardNum[i] = -1;
+                        ai2CardType[i] = -1;
+                        //reversedamageanimation.transform.position = Ai2Ui.transform.position;
+                        switch (attacker)
+                        {
+                            case 0:
+                                hitanimation.transform.position = PlayerUi.transform.position;
+                                playerLife -= attackValue;
+                                break;
+                            case 1:
+                                hitanimation.transform.position = Ai1Ui.transform.position;
+                                ai1Life -= attackValue;
+                                break;
+                            case 2:
+                                hitanimation.transform.position = Ai2Ui.transform.position;
+                                ai2Life -= attackValue;
+                                break;
+                            case 3:
+                                hitanimation.transform.position = Ai3Ui.transform.position;
+                                ai3Life -= attackValue;
+                                break;
+                        }
+                        back = true;
+                    }
                 }
-                else if (playerLife > 0)
+                i = 0;
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = PlayerUi.transform.position;
-                    playerLife -= attackValue;
+                    while (ai2CardType[i] != 5 & i < 19)
+                        i++;
+                    while (ai2CardType[i] == 5)
+                    {
+                        ai2CardAmount -= 1;
+                        ai2CardColor[i] = -1;
+                        ai2CardNum[i] = -1;
+                        ai2CardType[i] = -1;
+                        //blockdamageanimation.transform.position = Ai2Ui.transform.position;
+                        back = true;
+                    }
                 }
-                else
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai1Ui.transform.position;
-                    ai1Life -= attackValue;
+                    ai2Life -= attackValue;
+                    hitanimation.transform.position = Ai2Ui.transform.position;
                 }
                 break;
             case 3:
-                if (playerLife > 0)
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = PlayerUi.transform.position;
-                    playerLife -= attackValue;
+                    while (ai3CardType[i] != 4 & i < 19)
+                        i++;
+                    while (ai3CardType[i] == 4)
+                    {
+                        hitAnimation = true;
+                        ai3CardAmount -= 1;
+                        ai3CardColor[i] = -1;
+                        ai3CardNum[i] = -1;
+                        ai3CardType[i] = -1;
+                        //reversedamageanimation.transform.position = Ai3Ui.transform.position;
+                        switch (attacker)
+                        {
+                            case 0:
+                                hitanimation.transform.position = PlayerUi.transform.position;
+                                playerLife -= attackValue;
+                                break;
+                            case 1:
+                                hitanimation.transform.position = Ai1Ui.transform.position;
+                                ai1Life -= attackValue;
+                                break;
+                            case 2:
+                                hitanimation.transform.position = Ai2Ui.transform.position;
+                                ai2Life -= attackValue;
+                                break;
+                            case 3:
+                                hitanimation.transform.position = Ai3Ui.transform.position;
+                                ai3Life -= attackValue;
+                                break;
+                        }
+                        back = true;
+                    }
                 }
-                else if (ai1Life > 0)
+                i = 0;
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai1Ui.transform.position;
-                    ai1Life -= attackValue;
+                    while (ai3CardType[i] != 5 & i < 19)
+                        i++;
+                    while (ai3CardType[i] == 5)
+                    {
+                        ai3CardAmount -= 1;
+                        ai3CardColor[i] = -1;
+                        ai3CardNum[i] = -1;
+                        ai3CardType[i] = -1;
+                        //blockdamageanimation.transform.position = Ai3Ui.transform.position;
+                        back = true;
+                    }
                 }
-                else
+                if (back == false)
                 {
-                    hitAnimation = true;
-                    hitanimation.transform.position = Ai2Ui.transform.position;
-                    ai2Life -= attackValue;
+                    ai3Life -= attackValue;
+                    hitanimation.transform.position = Ai3Ui.transform.position;
                 }
                 break;
         }
-        attack.Play();
     }
-   
+    public void AIAttack(int target, int position)
+    {
+        if (SpecialMode == false)
+        {
+            switch (target)
+            {
+                case 0:
+                    if (ai1Life > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai1Ui.transform.position;
+                        ai1Life -= attackValue;
+                        PlaceCard(attackCardPosition);
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        targetMenu.SetActive(false);
+                    }
+                    else if (ai2Life > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai2Ui.transform.position;
+                        ai2Life -= attackValue;
+                        PlaceCard(attackCardPosition);
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        targetMenu.SetActive(false);
+                    }
+                    else
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai3Ui.transform.position;
+                        ai3Life -= attackValue;
+                        PlaceCard(attackCardPosition);
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        targetMenu.SetActive(false);
+                    }
+                    break;
+                case 1:
+                    if (ai2Life > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai2Ui.transform.position;
+                        ai2Life -= attackValue;
+                    }
+                    else if (ai3Life > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai3Ui.transform.position;
+                        ai3Life -= attackValue;
+                    }
+                    else
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = PlayerUi.transform.position;
+                        playerLife -= attackValue;
+                    }
+                    break;
+                case 2:
+                    if (ai3Life > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai3Ui.transform.position;
+                        ai3Life -= attackValue;
+                    }
+                    else if (playerLife > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = PlayerUi.transform.position;
+                        playerLife -= attackValue;
+                    }
+                    else
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai1Ui.transform.position;
+                        ai1Life -= attackValue;
+                    }
+                    break;
+                case 3:
+                    if (playerLife > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = PlayerUi.transform.position;
+                        playerLife -= attackValue;
+                    }
+                    else if (ai1Life > 0)
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai1Ui.transform.position;
+                        ai1Life -= attackValue;
+                    }
+                    else
+                    {
+                        hitAnimation = true;
+                        hitanimation.transform.position = Ai2Ui.transform.position;
+                        ai2Life -= attackValue;
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            switch (target)
+            {
+                case 0:
+                    if (ai1Life > 0)
+                    {
+                        SearchBackDamage(1, 0);
+                        PlaceCard(attackCardPosition);
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        targetMenu.SetActive(false);
+                    }
+                    else if (ai2Life > 0)
+                    {
+                        SearchBackDamage(2, 0);
+                        PlaceCard(attackCardPosition);
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        targetMenu.SetActive(false);
+                    }
+                    else
+                    {
+                        SearchBackDamage(3, 0);
+                        PlaceCard(attackCardPosition);
+                        roundTimeSlider.gameObject.SetActive(false);
+                        getCardButton.gameObject.SetActive(false);
+                        targetMenu.SetActive(false);
+                    }
+                    break;
+                case 1:
+                    if (ai2Life > 0)
+                    {
+                        SearchBackDamage(2, 1);
+                    }
+                    else if (ai3Life > 0)
+                    {
+                        SearchBackDamage(3, 1);
+                    }
+                    else
+                    {
+                        SearchBackDamage(0, 1);
+                    }
+                    break;
+                case 2:
+                    if (ai3Life > 0)
+                    {
+                        SearchBackDamage(3, 2);
+                    }
+                    else if (playerLife > 0)
+                    {
+                        SearchBackDamage(0, 2);
+                    }
+                    else
+                    {
+                        SearchBackDamage(1, 2);
+                    }
+                    break;
+                case 3:
+                    if (playerLife > 0)
+                    {
+                        SearchBackDamage(0, 3);
+                    }
+                    else if (ai1Life > 0)
+                    {
+                        SearchBackDamage(1, 3);
+                    }
+                    else
+                    {
+                        SearchBackDamage(2, 3);
+                    }
+                    break;
+            }
+        }
+        attack.Play();
+        //reversedamage.Play();
+        //blockdamage.Play();
+    }
+
     public void GetCard(int target) //0=player 1,2,3=AI
     {
         switch (target)
@@ -1396,6 +2007,7 @@ public class PlayerState : MonoBehaviour
                     break;
                 case 3:
                     ai1Life += ai1CardNum[cp];
+                    ai1healanimation.SetActive(true);
                     switch (ai1CardColor[cp])
                     {
                         case 1:
@@ -1863,6 +2475,7 @@ public class PlayerState : MonoBehaviour
                     break;
                 case 3:
                     ai2Life += ai2CardNum[cp];
+                    ai2healanimation.SetActive(true);
                     switch (ai2CardColor[cp])
                     {
                         case 1:
@@ -2329,6 +2942,7 @@ public class PlayerState : MonoBehaviour
                     break;
                 case 3:
                     ai3Life += ai3CardNum[cp];
+                    ai3healanimation.SetActive(true);
                     switch (ai3CardColor[cp])
                     {
                         case 1:
@@ -2798,7 +3412,7 @@ public class PlayerState : MonoBehaviour
                 break;
             case 3:
                 playerLife += p1CardNum[cp];
-                healanimation.SetActive(true);
+                playerhealanimation.SetActive(true);
                 switch (p1CardColor[cp])
                 {
                     case 1:
