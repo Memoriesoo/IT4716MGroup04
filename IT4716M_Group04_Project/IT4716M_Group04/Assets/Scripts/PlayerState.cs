@@ -165,12 +165,16 @@ public class PlayerState : MonoBehaviour
     public Image Ai3Ui;
     public GameObject PlayerUi;
     public GameObject hitanimation;
+    public GameObject blockanimation;
+    public GameObject reverseanimation;
 
     public GameObject blockMenu;
     public GameObject reverseMenu;
     public GameObject blockOrReverseMenu;
 
     bool hitAnimation = false;
+    bool blockAnimation = false;
+    bool reverseAnimation = false;
 
     Text roundTimer;
     Text timer;
@@ -257,6 +261,28 @@ public class PlayerState : MonoBehaviour
             {
                 hitanimation.SetActive(false);
                 hitAnimation = false;
+                animationTime = 1;
+            }
+        }
+        if (reverseAnimation == true)
+        {
+            reverseanimation.SetActive(true);
+            animationTime -= Time.deltaTime;
+            if (animationTime <= 0)
+            {
+                reverseanimation.SetActive(false);
+                reverseAnimation = false;
+                animationTime = 1;
+            }
+        }
+        if (blockAnimation == true)
+        {
+            blockanimation.SetActive(true);
+            animationTime -= Time.deltaTime;
+            if (animationTime <= 0)
+            {
+                blockanimation.SetActive(false);
+                blockAnimation = false;
                 animationTime = 1;
             }
         }
@@ -860,11 +886,12 @@ public class PlayerState : MonoBehaviour
                                 i++;
                             while (ai1CardType[i] == 4)
                             {
+                                reverseAnimation = true;
                                 ai1CardAmount -= 1;
                                 ai1CardColor[i] = -1;
                                 ai1CardNum[i] = -1;
                                 ai1CardType[i] = -1;
-                                //reversedamageanimation.transform.position = Ai1Ui.transform.position;
+                                reverseanimation.transform.position = Ai1Ui.transform.position;
                                 hitanimation.transform.position = PlayerUi.transform.position;
                                 playerLife -= attackValue;
                                 back = true;
@@ -877,11 +904,12 @@ public class PlayerState : MonoBehaviour
                                 i++;
                             while (ai1CardType[i] == 5)
                             {
+                                blockAnimation = true;
                                 ai1CardAmount -= 1;
                                 ai1CardColor[i] = -1;
                                 ai1CardNum[i] = -1;
                                 ai1CardType[i] = -1;
-                                //blockdamageanimation.transform.position = Ai1Ui.transform.position;
+                                blockanimation.transform.position = Ai1Ui.transform.position;
                                 back = true;
                             }
                         }
@@ -948,11 +976,12 @@ public class PlayerState : MonoBehaviour
                                 i++;
                             while (ai2CardType[i] == 4)
                             {
+                                reverseAnimation = true;
                                 ai2CardAmount -= 1;
                                 ai2CardColor[i] = -1;
                                 ai2CardNum[i] = -1;
                                 ai2CardType[i] = -1;
-                                //reversedamageanimation.transform.position = Ai2Ui.transform.position;
+                                reverseanimation.transform.position = Ai2Ui.transform.position;
                                 hitanimation.transform.position = PlayerUi.transform.position;
                                 playerLife -= attackValue;
                                 back = true;
@@ -965,11 +994,12 @@ public class PlayerState : MonoBehaviour
                                 i++;
                             while (ai2CardType[i] == 5)
                             {
+                                blockAnimation = true;
                                 ai2CardAmount -= 1;
                                 ai2CardColor[i] = -1;
                                 ai2CardNum[i] = -1;
                                 ai2CardType[i] = -1;
-                                //blockdamageanimation.transform.position = Ai2Ui.transform.position;
+                                blockanimation.transform.position = Ai2Ui.transform.position;
                                 back = true;
                             }
                         }
@@ -1036,11 +1066,12 @@ public class PlayerState : MonoBehaviour
                                 i++;
                             while (ai3CardType[i] == 4)
                             {
+                                reverseAnimation = true;
                                 ai3CardAmount -= 1;
                                 ai3CardColor[i] = -1;
                                 ai3CardNum[i] = -1;
                                 ai3CardType[i] = -1;
-                                //reversedamageanimation.transform.position = Ai3Ui.transform.position;
+                                reverseanimation.transform.position = Ai3Ui.transform.position;
                                 hitanimation.transform.position = PlayerUi.transform.position;
                                 playerLife -= attackValue;
                                 back = true;
@@ -1053,11 +1084,12 @@ public class PlayerState : MonoBehaviour
                                 i++;
                             while (ai3CardType[i] == 5)
                             {
+                                blockAnimation = true;
                                 ai3CardAmount -= 1;
                                 ai3CardColor[i] = -1;
                                 ai3CardNum[i] = -1;
                                 ai3CardType[i] = -1;
-                                //blockdamageanimation.transform.position = Ai3Ui.transform.position;
+                                blockanimation.transform.position = Ai3Ui.transform.position;
                                 back = true;
                             }
                         }
@@ -1128,6 +1160,7 @@ public class PlayerState : MonoBehaviour
         while (p1CardType[i] == 4)
         {
             hitAnimation = true;
+            reverseAnimation = true;
             playerCardAmount -= 1;
             p1CardColor[i] = -1;
             p1CardNum[i] = -1;
@@ -1149,7 +1182,7 @@ public class PlayerState : MonoBehaviour
             }
         }
         Time.timeScale = 1;
-        //reversedamageanimation.transform.position = PlayerUi.transform.position;
+        reverseanimation.transform.position = PlayerUi.transform.position;
     }
     public void BlockDamage()
     {
@@ -1157,6 +1190,7 @@ public class PlayerState : MonoBehaviour
         blockMenu.SetActive(false);
         reverseMenu.SetActive(false);
         blockOrReverseMenu.SetActive(false);
+        blockAnimation = true;
         while (p1CardType[i] != 5 & i < 19)
             i++;
         while (p1CardType[i] == 5)
@@ -1167,7 +1201,7 @@ public class PlayerState : MonoBehaviour
             p1CardType[i] = -1;
         }
         Time.timeScale = 1;
-        //blockdamageanimation.transform.position = PlayerUi.transform.position;
+        blockanimation.transform.position = PlayerUi.transform.position;
     }
     public void NothingToDo()
     {
@@ -1283,11 +1317,12 @@ public class PlayerState : MonoBehaviour
                     while (ai1CardType[i] == 4)
                     {
                         hitAnimation = true;
+                        reverseAnimation = true;
                         ai1CardAmount -= 1;
                         ai1CardColor[i] = -1;
                         ai1CardNum[i] = -1;
                         ai1CardType[i] = -1;
-                        //reversedamageanimation.transform.position = Ai1Ui.transform.position;
+                        reverseanimation.transform.position = Ai1Ui.transform.position;
                         switch (attacker)
                         {
                             case 0:
@@ -1317,11 +1352,12 @@ public class PlayerState : MonoBehaviour
                         i++;
                     while (ai1CardType[i] == 5)
                     {
+                        blockAnimation = true;
                         ai1CardAmount -= 1;
                         ai1CardColor[i] = -1;
                         ai1CardNum[i] = -1;
                         ai1CardType[i] = -1;
-                        //blockdamageanimation.transform.position = Ai1Ui.transform.position;
+                        blockanimation.transform.position = Ai1Ui.transform.position;
                         back = true;
                     }
                 }
@@ -1339,11 +1375,12 @@ public class PlayerState : MonoBehaviour
                     while (ai2CardType[i] == 4)
                     {
                         hitAnimation = true;
+                        reverseAnimation = true;
                         ai2CardAmount -= 1;
                         ai2CardColor[i] = -1;
                         ai2CardNum[i] = -1;
                         ai2CardType[i] = -1;
-                        //reversedamageanimation.transform.position = Ai2Ui.transform.position;
+                        reverseanimation.transform.position = Ai2Ui.transform.position;
                         switch (attacker)
                         {
                             case 0:
@@ -1373,11 +1410,12 @@ public class PlayerState : MonoBehaviour
                         i++;
                     while (ai2CardType[i] == 5)
                     {
+                        blockAnimation = true;
                         ai2CardAmount -= 1;
                         ai2CardColor[i] = -1;
                         ai2CardNum[i] = -1;
                         ai2CardType[i] = -1;
-                        //blockdamageanimation.transform.position = Ai2Ui.transform.position;
+                        blockanimation.transform.position = Ai2Ui.transform.position;
                         back = true;
                     }
                 }
@@ -1394,12 +1432,13 @@ public class PlayerState : MonoBehaviour
                         i++;
                     while (ai3CardType[i] == 4)
                     {
+                        reverseAnimation = true;
                         hitAnimation = true;
                         ai3CardAmount -= 1;
                         ai3CardColor[i] = -1;
                         ai3CardNum[i] = -1;
                         ai3CardType[i] = -1;
-                        //reversedamageanimation.transform.position = Ai3Ui.transform.position;
+                        reverseanimation.transform.position = Ai3Ui.transform.position;
                         switch (attacker)
                         {
                             case 0:
@@ -1429,11 +1468,12 @@ public class PlayerState : MonoBehaviour
                         i++;
                     while (ai3CardType[i] == 5)
                     {
+                        blockAnimation = true;
                         ai3CardAmount -= 1;
                         ai3CardColor[i] = -1;
                         ai3CardNum[i] = -1;
                         ai3CardType[i] = -1;
-                        //blockdamageanimation.transform.position = Ai3Ui.transform.position;
+                        blockanimation.transform.position = Ai3Ui.transform.position;
                         back = true;
                     }
                 }
